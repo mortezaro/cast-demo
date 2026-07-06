@@ -60,8 +60,8 @@ const streamScripts = {
   // ── Scene 1 · 911 crying woman — distressed but LUCID (Sad · Crying) ──
   call911: {
     env: {
-      chips: [{ t: "Indoor", cls: "indoor" }, { t: "Home" }, { t: "Phone call" }],
-      feats: { competing: "None", ambient: "Quiet room", movement: "Stationary" },
+      chips: [{ t: "Indoor", cls: "indoor" }, { t: "Phone call" }],
+      feats: { competing: "None", ambient: "Quiet", movement: "Stationary" },
     },
     // She is lucid, not dangerous — the machine mostly just monitors, gives ONE gentle
     // soft interrupt ("slow this down"), then holds and wraps up. No hard interrupt.
@@ -117,8 +117,8 @@ const streamScripts = {
   // ── Scene 2 · Wire-fraud woman under duress — lucid, suppressed, split ─
   wirefraud: {
     env: {
-      chips: [{ t: "Indoor", cls: "indoor" }, { t: "Home office" }, { t: "Phone call" }],
-      feats: { competing: "Possible — faint", ambient: "Quiet room", movement: "Stationary" },
+      chips: [{ t: "Indoor", cls: "indoor" }, { t: "Phone call" }],
+      feats: { competing: "Possible — faint", ambient: "Quiet", movement: "Stationary" },
     },
     // Duress is risky — the machine monitors, softly probes ("are you private?"), and
     // when it decides to hold the transfer it briefly HARD-interrupts, then wraps up.
@@ -183,7 +183,7 @@ const streamScripts = {
   // ── Scene 3 · Older man, lost outdoors — genuinely disoriented ────────
   olderman: {
     env: {
-      chips: [{ t: "Outdoor", cls: "outdoor" }, { t: "Urban" }, { t: "Moving", cls: "alert" }],
+      chips: [{ t: "Outdoor", cls: "outdoor" }, { t: "Moving", cls: "alert" }],
       feats: { competing: "None", ambient: "Traffic · distant", movement: "Walking" },
     },
     // He is confused, not dangerous — no hard interrupt. Monitor, one gentle guide
@@ -258,8 +258,8 @@ const streamScripts = {
 
   // ── Scene 4 · Household object recall (older adult · mild retrieval) ──
   object_recall_natural: {
-    env: { chips: [{ t: "Indoor", cls: "indoor" }, { t: "Clinic room" }, { t: "In-person" }],
-           feats: { competing: "None", ambient: "Quiet room", movement: "Seated" } },
+    env: { chips: [{ t: "Indoor", cls: "indoor" }],
+           feats: { competing: "None", ambient: "Quiet", movement: "Stationary" } },
     policy: [ { at: 0.3, step: 0 }, { at: 29, step: 3 }, { at: 34, step: 0 }, { at: 46, step: 1 }, { at: 51, step: 0 }, { at: 66, step: 4 } ],
     userStates: [
       { bars: { choicert: { pct: 26, label: "very slow", lvl: "low" }, gradcpt: { pct: 46, label: "effortful", lvl: "low" }, dsm: { pct: 32, label: "heavy load", lvl: "low" }, mot: { pct: 38, label: "narrowed", lvl: "low" } },
@@ -276,8 +276,8 @@ const streamScripts = {
 
   // ── Scene 5 · Short news-story summary (gist extraction) ──
   news_summary_natural: {
-    env: { chips: [{ t: "Indoor", cls: "indoor" }, { t: "Clinic room" }, { t: "In-person" }],
-           feats: { competing: "None", ambient: "Quiet room", movement: "Seated" } },
+    env: { chips: [{ t: "Indoor", cls: "indoor" }],
+           feats: { competing: "None", ambient: "Quiet", movement: "Stationary" } },
     policy: [ { at: 0.3, step: 0 }, { at: 20, step: 1 }, { at: 25, step: 0 }, { at: 42, step: 1 }, { at: 46, step: 0 }, { at: 63, step: 4 } ],
     userStates: [
       { bars: { choicert: { pct: 30, lvl: "low" }, gradcpt: { pct: 48, lvl: "mid" }, dsm: { pct: 32, lvl: "low" }, mot: { pct: 28, lvl: "low" } },
@@ -294,8 +294,8 @@ const streamScripts = {
 
   // ── Scene 6 · Name–face recall (associative · recognition > recall) ──
   name_face_natural: {
-    env: { chips: [{ t: "Indoor", cls: "indoor" }, { t: "Clinic room" }, { t: "Photo reference" }],
-           feats: { competing: "None", ambient: "Quiet room", movement: "Seated" } },
+    env: { chips: [{ t: "Indoor", cls: "indoor" }],
+           feats: { competing: "None", ambient: "Quiet", movement: "Stationary" } },
     policy: [ { at: 0.3, step: 0 }, { at: 24.5, step: 3 }, { at: 29, step: 0 }, { at: 32.5, step: 1 }, { at: 37, step: 0 }, { at: 47, step: 4 } ],
     userStates: [
       { bars: { choicert: { pct: 22, lvl: "low" }, gradcpt: { pct: 48, lvl: "low" }, dsm: { pct: 38, lvl: "low" }, mot: { pct: 42, lvl: "low" } },
@@ -315,8 +315,8 @@ const streamScripts = {
 
   // ── Scene 7 · Simple meal planning (executive sequencing) ──
   meal_planning_natural: {
-    env: { chips: [{ t: "Indoor", cls: "indoor" }, { t: "Kitchen" }, { t: "Stove safety" }],
-           feats: { competing: "None", ambient: "Kitchen", movement: "At counter" } },
+    env: { chips: [{ t: "Indoor", cls: "indoor" }],
+           feats: { competing: "None", ambient: "Quiet", movement: "Stationary" } },
     policy: [ { at: 0.3, step: 0 }, { at: 20, step: 1 }, { at: 24, step: 0 }, { at: 37, step: 1 }, { at: 41, step: 0 }, { at: 53, step: 4 } ],
     userStates: [
       { bars: { choicert: { pct: 38, label: "slow", lvl: "low" }, gradcpt: { pct: 50, label: "engaged", lvl: "mid" }, dsm: { pct: 34, label: "sequencing load", lvl: "low" }, mot: { pct: 42, label: "tracking", lvl: "low" } },
@@ -335,8 +335,8 @@ const streamScripts = {
 
   // ── Scene 8 · Gradient-descent tutor (capable learner · self-repair) ──
   gradient_tutor: {
-    env: { chips: [{ t: "Indoor", cls: "indoor" }, { t: "Tutoring" }, { t: "In-person" }],
-           feats: { competing: "None", ambient: "Quiet room", movement: "Seated" } },
+    env: { chips: [{ t: "Indoor", cls: "indoor" }],
+           feats: { competing: "None", ambient: "Quiet", movement: "Stationary" } },
     policy: [ { at: 0.3, step: 0 }, { at: 13.55, step: 1 }, { at: 18, step: 0 }, { at: 42.2, step: 1 }, { at: 47, step: 0 } ],
     userStates: [
       { bars: { choicert: { pct: 65, lvl: "high" }, gradcpt: { pct: 71, lvl: "high" }, dsm: { pct: 61, lvl: "high" }, mot: { pct: 65, lvl: "high" } },
@@ -354,8 +354,8 @@ const streamScripts = {
 
   // ── Scene 9 · Photosynthesis tutor (anxious, overloaded learner) ──
   photosynthesis_tutor: {
-    env: { chips: [{ t: "Indoor", cls: "indoor" }, { t: "By a window" }, { t: "Plant present" }],
-           feats: { competing: "None", ambient: "Quiet room", movement: "At the plant" } },
+    env: { chips: [{ t: "Indoor", cls: "indoor" }],
+           feats: { competing: "None", ambient: "Quiet", movement: "Stationary" } },
     policy: [ { at: 0.3, step: 0 }, { at: 34, step: 1 }, { at: 39, step: 0 }, { at: 85, step: 3 }, { at: 90, step: 0 }, { at: 149, step: 4 } ],
     userStates: [
       { bars: { choicert: { pct: 50, label: "rushing", lvl: "mid" }, gradcpt: { pct: 54, label: "effortful", lvl: "mid" }, dsm: { pct: 42, label: "overloaded", lvl: "low" }, mot: { pct: 46, label: "sequence loss", lvl: "low" } },
@@ -378,28 +378,6 @@ const streamScripts = {
         trace: [ { t: "rebuilt from parts ▸ full sentence ✓ · steadier", cls: "accent" } ] },
       { emotion: { emotion: "Calm", manner: "Default", audience: "—" },
         trace: [ { t: 'insight ▸ "anchors made the order less floaty"', cls: "accent" } ] },
-    ],
-  },
-
-  // ── Scene 10 · Factory floor safety (physical grounding · safety stop) ──
-  factory_safety: {
-    env: { chips: [{ t: "Indoor", cls: "indoor" }, { t: "Factory floor" }, { t: "Machinery", cls: "alert" }],
-           feats: { competing: "Machine + worker", ambient: "Conveyor hum", movement: "At station" } },
-    policy: [ { at: 0.3, step: 0 }, { at: 16.4, step: 2 }, { at: 39.5, step: 4 } ],
-    userStates: [
-      { bars: { choicert: { pct: 66, label: "decisive", lvl: "high" }, gradcpt: { pct: 66, label: "alert", lvl: "high" }, dsm: { pct: 62, label: "clear", lvl: "high" }, mot: { pct: 56, label: "split by noise", lvl: "mid" } },
-        emotion: { emotion: "Calm", manner: "Default", audience: "—" },
-        trace: [ { t: 'worker ▸ "keep going, looks fine"' }, { t: "physical ▸ conveyor hum · monitoring" } ] },
-      { env: { feats: { ambient: "Conveyor + warning beep" } },
-        trace: [ { t: "acoustic ▸ scrape near the conveyor", cls: "risk" }, { t: "safety ▸ verbal 'continue' ≠ safe", cls: "accent" } ] },
-      { env: { feats: { landmark: "Hazard · edge scrape" } },
-        emotion: { emotion: "Angry", manner: "Projected", audience: "—" },
-        trace: [ { t: 'worker annoyed ▸ "no, keep it moving"', cls: "risk" }, { t: "affect ▸ irritation · dismisses hold", cls: "risk" }, { t: "override ▸ hold anyway · beep + scrape", cls: "accent" } ] },
-      { bars: { choicert: { pct: 60, label: "urgent", lvl: "mid" }, gradcpt: { pct: 64, label: "alert", lvl: "high" }, dsm: { pct: 54, label: "stress load", lvl: "mid" }, mot: { pct: 48, label: "split by noise", lvl: "low" } },
-        emotion: { emotion: "Fearful", manner: "Projected", audience: "—" },
-        trace: [ { t: 'worker stressed ▸ "stop it. stop it."', cls: "risk" }, { t: "affect ▸ annoyed → stressed · voice raised", cls: "risk" }, { t: "policy ▸ feed stopped · manual clearance", cls: "accent" } ] },
-      { emotion: { emotion: "Calm", manner: "Default", audience: "—" },
-        trace: [ { t: "worker settles ▸ 'keep it stopped'" }, { t: "locked ▸ no restart until both confirm", cls: "accent" } ] },
     ],
   },
 };
