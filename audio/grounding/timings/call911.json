@@ -1,0 +1,912 @@
+[
+  {
+    "start": 0.0,
+    "end": 0.265,
+    "speaker": "speaker_model",
+    "word": "911,",
+    "probability": 1.0
+  },
+  {
+    "start": 0.265,
+    "end": 0.531,
+    "speaker": "speaker_model",
+    "word": "this",
+    "probability": 1.0
+  },
+  {
+    "start": 0.531,
+    "end": 0.664,
+    "speaker": "speaker_model",
+    "word": "is",
+    "probability": 1.0
+  },
+  {
+    "start": 0.664,
+    "end": 1.327,
+    "speaker": "speaker_model",
+    "word": "dispatcher",
+    "probability": 1.0
+  },
+  {
+    "start": 1.327,
+    "end": 1.791,
+    "speaker": "speaker_model",
+    "word": "Morgan.",
+    "probability": 1.0
+  },
+  {
+    "start": 1.791,
+    "end": 1.924,
+    "speaker": "speaker_model",
+    "word": "We",
+    "probability": 1.0
+  },
+  {
+    "start": 1.924,
+    "end": 2.455,
+    "speaker": "speaker_model",
+    "word": "received",
+    "probability": 1.0
+  },
+  {
+    "start": 2.455,
+    "end": 2.521,
+    "speaker": "speaker_model",
+    "word": "a",
+    "probability": 1.0
+  },
+  {
+    "start": 2.521,
+    "end": 2.787,
+    "speaker": "speaker_model",
+    "word": "call",
+    "probability": 1.0
+  },
+  {
+    "start": 2.787,
+    "end": 3.052,
+    "speaker": "speaker_model",
+    "word": "from",
+    "probability": 1.0
+  },
+  {
+    "start": 3.052,
+    "end": 3.318,
+    "speaker": "speaker_model",
+    "word": "this",
+    "probability": 1.0
+  },
+  {
+    "start": 3.318,
+    "end": 3.716,
+    "speaker": "speaker_model",
+    "word": "number",
+    "probability": 1.0
+  },
+  {
+    "start": 3.716,
+    "end": 3.981,
+    "speaker": "speaker_model",
+    "word": "that",
+    "probability": 1.0
+  },
+  {
+    "start": 3.981,
+    "end": 4.18,
+    "speaker": "speaker_model",
+    "word": "got",
+    "probability": 1.0
+  },
+  {
+    "start": 4.18,
+    "end": 5.043,
+    "speaker": "speaker_model",
+    "word": "disconnected.",
+    "probability": 1.0
+  },
+  {
+    "start": 5.043,
+    "end": 5.242,
+    "speaker": "speaker_model",
+    "word": "I'm",
+    "probability": 1.0
+  },
+  {
+    "start": 5.242,
+    "end": 5.507,
+    "speaker": "speaker_model",
+    "word": "just",
+    "probability": 1.0
+  },
+  {
+    "start": 5.507,
+    "end": 5.972,
+    "speaker": "speaker_model",
+    "word": "calling",
+    "probability": 1.0
+  },
+  {
+    "start": 5.972,
+    "end": 6.237,
+    "speaker": "speaker_model",
+    "word": "back",
+    "probability": 1.0
+  },
+  {
+    "start": 6.237,
+    "end": 6.37,
+    "speaker": "speaker_model",
+    "word": "to",
+    "probability": 1.0
+  },
+  {
+    "start": 6.37,
+    "end": 6.635,
+    "speaker": "speaker_model",
+    "word": "make",
+    "probability": 1.0
+  },
+  {
+    "start": 6.635,
+    "end": 6.901,
+    "speaker": "speaker_model",
+    "word": "sure",
+    "probability": 1.0
+  },
+  {
+    "start": 6.901,
+    "end": 7.431,
+    "speaker": "speaker_model",
+    "word": "everyone",
+    "probability": 1.0
+  },
+  {
+    "start": 7.431,
+    "end": 7.763,
+    "speaker": "speaker_model",
+    "word": "there",
+    "probability": 1.0
+  },
+  {
+    "start": 7.763,
+    "end": 7.896,
+    "speaker": "speaker_model",
+    "word": "is",
+    "probability": 1.0
+  },
+  {
+    "start": 7.896,
+    "end": 8.228,
+    "speaker": "speaker_model",
+    "word": "okay.",
+    "probability": 1.0
+  },
+  {
+    "start": 8.228,
+    "end": 8.427,
+    "speaker": "speaker_model",
+    "word": "Can",
+    "probability": 1.0
+  },
+  {
+    "start": 8.427,
+    "end": 8.626,
+    "speaker": "speaker_model",
+    "word": "you",
+    "probability": 1.0
+  },
+  {
+    "start": 8.626,
+    "end": 8.891,
+    "speaker": "speaker_model",
+    "word": "tell",
+    "probability": 1.0
+  },
+  {
+    "start": 8.891,
+    "end": 9.024,
+    "speaker": "speaker_model",
+    "word": "me",
+    "probability": 1.0
+  },
+  {
+    "start": 9.024,
+    "end": 9.422,
+    "speaker": "speaker_model",
+    "word": "what's",
+    "probability": 1.0
+  },
+  {
+    "start": 9.422,
+    "end": 9.754,
+    "speaker": "speaker_model",
+    "word": "going",
+    "probability": 1.0
+  },
+  {
+    "start": 9.754,
+    "end": 9.953,
+    "speaker": "speaker_model",
+    "word": "on?",
+    "probability": 1.0
+  },
+  {
+    "start": 9.953,
+    "end": 10.064,
+    "speaker": "speaker_user",
+    "word": "I",
+    "probability": 1.0
+  },
+  {
+    "start": 10.064,
+    "end": 10.732,
+    "speaker": "speaker_user",
+    "word": "didn't",
+    "probability": 1.0
+  },
+  {
+    "start": 10.732,
+    "end": 11.178,
+    "speaker": "speaker_user",
+    "word": "mean",
+    "probability": 1.0
+  },
+  {
+    "start": 11.178,
+    "end": 11.401,
+    "speaker": "speaker_user",
+    "word": "to",
+    "probability": 1.0
+  },
+  {
+    "start": 11.401,
+    "end": 11.958,
+    "speaker": "speaker_user",
+    "word": "call.",
+    "probability": 1.0
+  },
+  {
+    "start": 11.958,
+    "end": 12.181,
+    "speaker": "speaker_user",
+    "word": "It",
+    "probability": 1.0
+  },
+  {
+    "start": 12.181,
+    "end": 12.515,
+    "speaker": "speaker_user",
+    "word": "was",
+    "probability": 1.0
+  },
+  {
+    "start": 12.515,
+    "end": 13.74,
+    "speaker": "speaker_user",
+    "word": "accidental.",
+    "probability": 1.0
+  },
+  {
+    "start": 13.96,
+    "end": 14.389,
+    "speaker": "speaker_model",
+    "word": "Okay.",
+    "probability": 1.0
+  },
+  {
+    "start": 14.389,
+    "end": 14.475,
+    "speaker": "speaker_model",
+    "word": "I",
+    "probability": 1.0
+  },
+  {
+    "start": 14.475,
+    "end": 14.817,
+    "speaker": "speaker_model",
+    "word": "hear",
+    "probability": 1.0
+  },
+  {
+    "start": 14.817,
+    "end": 15.16,
+    "speaker": "speaker_model",
+    "word": "you.",
+    "probability": 1.0
+  },
+  {
+    "start": 15.16,
+    "end": 15.417,
+    "speaker": "speaker_model",
+    "word": "You",
+    "probability": 1.0
+  },
+  {
+    "start": 15.417,
+    "end": 15.846,
+    "speaker": "speaker_model",
+    "word": "sound",
+    "probability": 1.0
+  },
+  {
+    "start": 15.846,
+    "end": 16.189,
+    "speaker": "speaker_model",
+    "word": "very",
+    "probability": 1.0
+  },
+  {
+    "start": 16.189,
+    "end": 16.703,
+    "speaker": "speaker_model",
+    "word": "upset,",
+    "probability": 1.0
+  },
+  {
+    "start": 16.703,
+    "end": 16.874,
+    "speaker": "speaker_model",
+    "word": "so",
+    "probability": 1.0
+  },
+  {
+    "start": 16.874,
+    "end": 17.131,
+    "speaker": "speaker_model",
+    "word": "I'm",
+    "probability": 1.0
+  },
+  {
+    "start": 17.131,
+    "end": 17.474,
+    "speaker": "speaker_model",
+    "word": "just",
+    "probability": 1.0
+  },
+  {
+    "start": 17.474,
+    "end": 17.903,
+    "speaker": "speaker_model",
+    "word": "going",
+    "probability": 1.0
+  },
+  {
+    "start": 17.903,
+    "end": 18.074,
+    "speaker": "speaker_model",
+    "word": "to",
+    "probability": 1.0
+  },
+  {
+    "start": 18.074,
+    "end": 18.417,
+    "speaker": "speaker_model",
+    "word": "slow",
+    "probability": 1.0
+  },
+  {
+    "start": 18.417,
+    "end": 18.76,
+    "speaker": "speaker_model",
+    "word": "this",
+    "probability": 1.0
+  },
+  {
+    "start": 18.76,
+    "end": 19.103,
+    "speaker": "speaker_model",
+    "word": "down",
+    "probability": 1.0
+  },
+  {
+    "start": 19.103,
+    "end": 19.36,
+    "speaker": "speaker_model",
+    "word": "for",
+    "probability": 1.0
+  },
+  {
+    "start": 19.36,
+    "end": 19.446,
+    "speaker": "speaker_model",
+    "word": "a",
+    "probability": 1.0
+  },
+  {
+    "start": 19.446,
+    "end": 20.045,
+    "speaker": "speaker_model",
+    "word": "second.",
+    "probability": 1.0
+  },
+  {
+    "start": 20.045,
+    "end": 20.217,
+    "speaker": "speaker_model",
+    "word": "Is",
+    "probability": 1.0
+  },
+  {
+    "start": 20.217,
+    "end": 20.731,
+    "speaker": "speaker_model",
+    "word": "anyone",
+    "probability": 1.0
+  },
+  {
+    "start": 20.731,
+    "end": 21.16,
+    "speaker": "speaker_model",
+    "word": "there",
+    "probability": 1.0
+  },
+  {
+    "start": 21.16,
+    "end": 21.588,
+    "speaker": "speaker_model",
+    "word": "hurt?",
+    "probability": 1.0
+  },
+  {
+    "start": 21.588,
+    "end": 22.21,
+    "speaker": "speaker_user",
+    "word": "No.",
+    "probability": 1.0
+  },
+  {
+    "start": 22.21,
+    "end": 23.454,
+    "speaker": "speaker_user",
+    "word": "Nobody",
+    "probability": 1.0
+  },
+  {
+    "start": 23.454,
+    "end": 23.869,
+    "speaker": "speaker_user",
+    "word": "is",
+    "probability": 1.0
+  },
+  {
+    "start": 23.869,
+    "end": 24.906,
+    "speaker": "speaker_user",
+    "word": "hurt.",
+    "probability": 1.0
+  },
+  {
+    "start": 25.086,
+    "end": 25.672,
+    "speaker": "speaker_model",
+    "word": "Alright.",
+    "probability": 1.0
+  },
+  {
+    "start": 25.672,
+    "end": 25.892,
+    "speaker": "speaker_model",
+    "word": "And",
+    "probability": 1.0
+  },
+  {
+    "start": 25.892,
+    "end": 26.111,
+    "speaker": "speaker_model",
+    "word": "are",
+    "probability": 1.0
+  },
+  {
+    "start": 26.111,
+    "end": 26.331,
+    "speaker": "speaker_model",
+    "word": "you",
+    "probability": 1.0
+  },
+  {
+    "start": 26.331,
+    "end": 26.624,
+    "speaker": "speaker_model",
+    "word": "safe",
+    "probability": 1.0
+  },
+  {
+    "start": 26.624,
+    "end": 26.991,
+    "speaker": "speaker_model",
+    "word": "where",
+    "probability": 1.0
+  },
+  {
+    "start": 26.991,
+    "end": 27.211,
+    "speaker": "speaker_model",
+    "word": "you",
+    "probability": 1.0
+  },
+  {
+    "start": 27.211,
+    "end": 27.43,
+    "speaker": "speaker_model",
+    "word": "are",
+    "probability": 1.0
+  },
+  {
+    "start": 27.43,
+    "end": 27.797,
+    "speaker": "speaker_model",
+    "word": "right",
+    "probability": 1.0
+  },
+  {
+    "start": 27.797,
+    "end": 28.09,
+    "speaker": "speaker_model",
+    "word": "now?",
+    "probability": 1.0
+  },
+  {
+    "start": 28.09,
+    "end": 29.111,
+    "speaker": "speaker_user",
+    "word": "Yes.",
+    "probability": 1.0
+  },
+  {
+    "start": 29.111,
+    "end": 29.878,
+    "speaker": "speaker_user",
+    "word": "I'm",
+    "probability": 1.0
+  },
+  {
+    "start": 29.878,
+    "end": 30.899,
+    "speaker": "speaker_user",
+    "word": "safe",
+    "probability": 1.0
+  },
+  {
+    "start": 30.899,
+    "end": 31.41,
+    "speaker": "speaker_user",
+    "word": "at",
+    "probability": 1.0
+  },
+  {
+    "start": 31.41,
+    "end": 32.687,
+    "speaker": "speaker_user",
+    "word": "home.",
+    "probability": 1.0
+  },
+  {
+    "start": 32.887,
+    "end": 33.241,
+    "speaker": "speaker_model",
+    "word": "Okay.",
+    "probability": 1.0
+  },
+  {
+    "start": 33.241,
+    "end": 33.383,
+    "speaker": "speaker_model",
+    "word": "Do",
+    "probability": 1.0
+  },
+  {
+    "start": 33.383,
+    "end": 33.595,
+    "speaker": "speaker_model",
+    "word": "you",
+    "probability": 1.0
+  },
+  {
+    "start": 33.595,
+    "end": 33.878,
+    "speaker": "speaker_model",
+    "word": "need",
+    "probability": 1.0
+  },
+  {
+    "start": 33.878,
+    "end": 34.373,
+    "speaker": "speaker_model",
+    "word": "police,",
+    "probability": 1.0
+  },
+  {
+    "start": 34.373,
+    "end": 34.727,
+    "speaker": "speaker_model",
+    "word": "fire,",
+    "probability": 1.0
+  },
+  {
+    "start": 34.727,
+    "end": 34.868,
+    "speaker": "speaker_model",
+    "word": "or",
+    "probability": 1.0
+  },
+  {
+    "start": 34.868,
+    "end": 35.364,
+    "speaker": "speaker_model",
+    "word": "medical",
+    "probability": 1.0
+  },
+  {
+    "start": 35.364,
+    "end": 35.717,
+    "speaker": "speaker_model",
+    "word": "there",
+    "probability": 1.0
+  },
+  {
+    "start": 35.717,
+    "end": 36.0,
+    "speaker": "speaker_model",
+    "word": "with",
+    "probability": 1.0
+  },
+  {
+    "start": 36.0,
+    "end": 36.283,
+    "speaker": "speaker_model",
+    "word": "you?",
+    "probability": 1.0
+  },
+  {
+    "start": 36.283,
+    "end": 36.78,
+    "speaker": "speaker_user",
+    "word": "No.",
+    "probability": 1.0
+  },
+  {
+    "start": 36.78,
+    "end": 36.946,
+    "speaker": "speaker_user",
+    "word": "I",
+    "probability": 1.0
+  },
+  {
+    "start": 36.946,
+    "end": 37.774,
+    "speaker": "speaker_user",
+    "word": "don't",
+    "probability": 1.0
+  },
+  {
+    "start": 37.774,
+    "end": 38.437,
+    "speaker": "speaker_user",
+    "word": "need",
+    "probability": 1.0
+  },
+  {
+    "start": 38.437,
+    "end": 39.597,
+    "speaker": "speaker_user",
+    "word": "police,",
+    "probability": 1.0
+  },
+  {
+    "start": 39.597,
+    "end": 40.426,
+    "speaker": "speaker_user",
+    "word": "fire,",
+    "probability": 1.0
+  },
+  {
+    "start": 40.426,
+    "end": 40.757,
+    "speaker": "speaker_user",
+    "word": "or",
+    "probability": 1.0
+  },
+  {
+    "start": 40.757,
+    "end": 42.082,
+    "speaker": "speaker_user",
+    "word": "medical.",
+    "probability": 1.0
+  },
+  {
+    "start": 42.282,
+    "end": 42.788,
+    "speaker": "speaker_model",
+    "word": "Alright.",
+    "probability": 1.0
+  },
+  {
+    "start": 42.788,
+    "end": 43.104,
+    "speaker": "speaker_model",
+    "word": "Since",
+    "probability": 1.0
+  },
+  {
+    "start": 43.104,
+    "end": 43.294,
+    "speaker": "speaker_model",
+    "word": "you",
+    "probability": 1.0
+  },
+  {
+    "start": 43.294,
+    "end": 43.61,
+    "speaker": "speaker_model",
+    "word": "sound",
+    "probability": 1.0
+  },
+  {
+    "start": 43.61,
+    "end": 43.863,
+    "speaker": "speaker_model",
+    "word": "this",
+    "probability": 1.0
+  },
+  {
+    "start": 43.863,
+    "end": 44.243,
+    "speaker": "speaker_model",
+    "word": "upset,",
+    "probability": 1.0
+  },
+  {
+    "start": 44.243,
+    "end": 44.432,
+    "speaker": "speaker_model",
+    "word": "I'm",
+    "probability": 1.0
+  },
+  {
+    "start": 44.432,
+    "end": 44.749,
+    "speaker": "speaker_model",
+    "word": "going",
+    "probability": 1.0
+  },
+  {
+    "start": 44.749,
+    "end": 44.875,
+    "speaker": "speaker_model",
+    "word": "to",
+    "probability": 1.0
+  },
+  {
+    "start": 44.875,
+    "end": 45.128,
+    "speaker": "speaker_model",
+    "word": "keep",
+    "probability": 1.0
+  },
+  {
+    "start": 45.128,
+    "end": 45.318,
+    "speaker": "speaker_model",
+    "word": "the",
+    "probability": 1.0
+  },
+  {
+    "start": 45.318,
+    "end": 45.571,
+    "speaker": "speaker_model",
+    "word": "line",
+    "probability": 1.0
+  },
+  {
+    "start": 45.571,
+    "end": 45.823,
+    "speaker": "speaker_model",
+    "word": "open",
+    "probability": 1.0
+  },
+  {
+    "start": 45.823,
+    "end": 46.076,
+    "speaker": "speaker_model",
+    "word": "with",
+    "probability": 1.0
+  },
+  {
+    "start": 46.076,
+    "end": 46.266,
+    "speaker": "speaker_model",
+    "word": "you",
+    "probability": 1.0
+  },
+  {
+    "start": 46.266,
+    "end": 46.456,
+    "speaker": "speaker_model",
+    "word": "for",
+    "probability": 1.0
+  },
+  {
+    "start": 46.456,
+    "end": 46.519,
+    "speaker": "speaker_model",
+    "word": "a",
+    "probability": 1.0
+  },
+  {
+    "start": 46.519,
+    "end": 46.962,
+    "speaker": "speaker_model",
+    "word": "moment.",
+    "probability": 1.0
+  },
+  {
+    "start": 46.962,
+    "end": 47.151,
+    "speaker": "speaker_model",
+    "word": "You",
+    "probability": 1.0
+  },
+  {
+    "start": 47.151,
+    "end": 47.468,
+    "speaker": "speaker_model",
+    "word": "don't",
+    "probability": 1.0
+  },
+  {
+    "start": 47.468,
+    "end": 47.72,
+    "speaker": "speaker_model",
+    "word": "need",
+    "probability": 1.0
+  },
+  {
+    "start": 47.72,
+    "end": 47.847,
+    "speaker": "speaker_model",
+    "word": "to",
+    "probability": 1.0
+  },
+  {
+    "start": 47.847,
+    "end": 48.037,
+    "speaker": "speaker_model",
+    "word": "say",
+    "probability": 1.0
+  },
+  {
+    "start": 48.037,
+    "end": 48.543,
+    "speaker": "speaker_model",
+    "word": "anything",
+    "probability": 1.0
+  },
+  {
+    "start": 48.543,
+    "end": 48.795,
+    "speaker": "speaker_model",
+    "word": "else",
+    "probability": 1.0
+  },
+  {
+    "start": 48.795,
+    "end": 49.175,
+    "speaker": "speaker_model",
+    "word": "unless",
+    "probability": 1.0
+  },
+  {
+    "start": 49.175,
+    "end": 49.744,
+    "speaker": "speaker_model",
+    "word": "something",
+    "probability": 1.0
+  },
+  {
+    "start": 49.744,
+    "end": 50.25,
+    "speaker": "speaker_model",
+    "word": "changes.",
+    "probability": 1.0
+  }
+]

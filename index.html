@@ -1,0 +1,1576 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CAST"
+    />
+    <title>CAST - Internal State Demo</title>
+    <link rel="stylesheet" href="styles.css?v=95" />
+    <style id="cast-gate-style">
+      #cast-gate{position:fixed;inset:0;z-index:2147483647;background:#f3f4ef;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
+      #cast-gate.cast-gate--open{display:none;}
+      #cast-gate .gate-card{width:min(360px,88vw);text-align:center;padding:8px;}
+      #cast-gate .gate-mark{display:inline-flex;gap:4px;align-items:flex-end;height:22px;margin-bottom:18px;}
+      #cast-gate .gate-mark i{width:5px;background:#6f950f;border-radius:2px;}
+      #cast-gate .gate-mark i:nth-child(1){height:12px;} #cast-gate .gate-mark i:nth-child(2){height:22px;} #cast-gate .gate-mark i:nth-child(3){height:16px;}
+      #cast-gate h2{margin:0 0 6px;font-size:1.15rem;color:#1b2620;letter-spacing:-0.01em;}
+      #cast-gate p{margin:0 0 20px;font-size:0.85rem;color:#6b7280;line-height:1.5;}
+      #cast-gate form{display:flex;gap:8px;}
+      #cast-gate input{flex:1;padding:11px 13px;border:1px solid #d5d8d2;border-radius:9px;font-size:0.95rem;background:#fff;outline:none;}
+      #cast-gate input:focus{border-color:#6f950f;box-shadow:0 0 0 3px rgba(111,149,15,0.15);}
+      #cast-gate button{padding:11px 18px;border:none;border-radius:9px;background:#1b2620;color:#fff;font-size:0.9rem;font-weight:600;cursor:pointer;}
+      #cast-gate button:hover{background:#2b3a30;}
+      #cast-gate .gate-err{min-height:18px;margin-top:10px;font-size:0.78rem;color:#c0392b;}
+    </style>
+  </head>
+  <body>
+    <div id="cast-gate" aria-label="Password required">
+      <div class="gate-card">
+        <span class="gate-mark"><i></i><i></i><i></i></span>
+        <h2>CAST — private preview</h2>
+        <p>This page is not public. Enter the password to continue.</p>
+        <form id="cast-gate-form" autocomplete="off">
+          <input id="cast-gate-input" type="password" placeholder="Password" aria-label="Password" autofocus />
+          <button type="submit">Enter</button>
+        </form>
+        <div class="gate-err" id="cast-gate-err"></div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var KEY = "cast-preview-ok";
+        var gate = document.getElementById("cast-gate");
+        function open() { gate.classList.add("cast-gate--open"); }
+        try { if (sessionStorage.getItem(KEY) === "1") { open(); return; } } catch (e) {}
+        var form = document.getElementById("cast-gate-form");
+        var input = document.getElementById("cast-gate-input");
+        var err = document.getElementById("cast-gate-err");
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          if (input.value === "12345") {
+            try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
+            open();
+          } else {
+            err.textContent = "Incorrect password";
+            input.value = "";
+            input.focus();
+          }
+        });
+        input.focus();
+      })();
+    </script>
+    <div class="grain"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="CAST home">
+        <span class="brand-mark"><i></i><i></i><i></i></span>
+        CAST
+      </a>
+      <div class="loop-chip"><span></span>80 ms stream + 40 ms state head = 120 ms loop</div>
+    </header>
+
+    <main>
+      <section class="intro scene">
+        <div class="intro-copy">
+          <p class="kicker">Why internal state is the next frontier</p>
+          <h1>The same person isn't the same collaborator every moment.</h1>
+          <p>
+            Voice AI has learned to hear the words and hold a conversation. What it
+            still misses is the human behind them — how much they can take in right now,
+            how they feel, where they are. CAST reads that internal state live, and adapts.
+          </p>
+        </div>
+
+        <div class="yt-embed">
+          <iframe
+            src="https://www.youtube.com/embed/YvT_gqs5ETk"
+            title="CAST — grounding demo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <div class="baseline-strip">
+          <div class="baseline-header">
+            <span>Without grounding — three calls, three failures</span>
+          </div>
+          <div class="baseline-players">
+            <div class="baseline-player">
+              <div class="player-label"><strong>911 Call</strong></div>
+              <audio controls controlsList="nodownload noplaybackrate" disablepictureinpicture disableremoteplayback preload="none" src="audio/grounding/b1.wav"></audio>
+            </div>
+            <div class="baseline-player">
+              <div class="player-label"><strong>Wire Fraud</strong></div>
+              <audio controls controlsList="nodownload noplaybackrate" disablepictureinpicture disableremoteplayback preload="none" src="audio/grounding/b2.wav"></audio>
+            </div>
+            <div class="baseline-player">
+              <div class="player-label"><strong>Old Man Lost</strong></div>
+              <audio controls controlsList="nodownload noplaybackrate" disablepictureinpicture disableremoteplayback preload="none" src="audio/grounding/b3.mp3"></audio>
+            </div>
+          </div>
+
+          <div class="missing-accordion">
+            <button class="missing-toggle" type="button" aria-expanded="false">
+              <span>What are all of these missing?</span>
+              <i class="missing-chevron"></i>
+            </button>
+            <div class="missing-body" hidden>
+              <div class="missing-items">
+                <div class="missing-item">
+                  <strong>Environment</strong>
+                  <p>Indoor vs. outdoor, ambient noise, spatial cues — where the caller is shapes everything.</p>
+                </div>
+                <div class="missing-item">
+                  <strong>Cognitive state</strong>
+                  <p>Response speed, sustained focus, processing load — how much the caller can handle right now.</p>
+                </div>
+                <div class="missing-item">
+                  <strong>Emotional state</strong>
+                  <p>Fear, distress, confusion — what the voice reveals that the words deny.</p>
+                </div>
+                <div class="missing-item">
+                  <strong>Interaction grounding</strong>
+                  <p>When to stay quiet, when to step in, how much burden to put on a person in crisis.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="architecture-strip" aria-label="CAST processing loop">
+          <span>speech</span>
+          <i></i>
+          <span>state</span>
+          <i></i>
+          <span>policy</span>
+          <i></i>
+          <span>response</span>
+        </div>
+        <div class="voice-note">
+          <span>real call recordings</span>
+          <span>grounded CAST responses</span>
+          <span>live internal state</span>
+        </div>
+      </section>
+
+      <!-- ── Ten grounded scenarios · five domains (collapsible) ────────── -->
+      <section class="scenarios" aria-label="Grounded scenarios">
+        <div class="scenarios-intro">
+          <span>Ten grounded scenarios · five domains</span>
+          <p>Click any bar to expand and run it — watch the live cognitive, emotional, and physical state.</p>
+        </div>
+          <div class="scenario-category" data-cat="call">
+            <div class="cat-header"><span class="cat-name">Call services</span><span class="cat-sub">Emergency &amp; welfare — voice under crisis and distress</span></div>
+            <div class="scenario-list">
+            <div class="scenario-panel" data-cat="call">
+              <button class="scenario-toggle" aria-expanded="false" type="button">
+                <span class="scenario-dot"></span>
+                <span class="scenario-num">01</span>
+                <span class="scenario-name"><strong>911 callback · welfare check</strong><em>emotional distress · cognitive grounding</em></span>
+                <span class="scenario-chev"></span>
+              </button>
+              <div class="scenario-body" hidden>
+<article class="story-scene" data-scene="call911" data-audio="audio/grounding/c01.mp3">
+          <div class="scene-meta">
+            <div><span>01</span><strong>911 Callback · welfare check</strong></div>
+            <div class="scene-meta-right">
+              <button class="play-session" type="button"><i></i>Run session</button>
+            </div>
+          </div>
+
+          <div class="conversation-grid">
+            <aside class="rail user-rail" aria-label="Caller transcript">
+              <div class="rail-label">Caller</div>
+              <div class="turn" data-at="9000">
+                <span>00:09</span>
+                <p>I didn't mean to call. It was accidental.</p>
+              </div>
+              <div class="turn" data-at="22500">
+                <span>00:22</span>
+                <p>No. Nobody is hurt.</p>
+              </div>
+              <div class="turn" data-at="31500">
+                <span>00:31</span>
+                <p>Yes. I'm safe at home.</p>
+              </div>
+              <div class="turn" data-at="40500">
+                <span>00:40</span>
+                <p>No. I don't need police, fire, or medical.</p>
+              </div>
+            </aside>
+
+            <section class="mind-panel" aria-label="CAST internal state">
+              <div class="mind-header">
+                <div><span>Internal state head</span><strong>Reading emotional state.</strong></div>
+                <em>layer 1 · cognitive grounding</em>
+              </div>
+
+              <div class="visual-stack">
+                <div class="cog-emo-row">
+                  <!-- Cognitive state -->
+                  <div class="cog-board">
+                    <div class="board-title"><strong>Cognitive</strong></div>
+                    <div class="cog-bars">
+                      <div class="cog-bar" data-bar="choicert" data-level="mid">
+                        <div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                      <div class="cog-bar" data-bar="gradcpt" data-level="mid">
+                        <div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                      <div class="cog-bar" data-bar="dsm" data-level="mid">
+                        <div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                      <div class="cog-bar" data-bar="mot" data-level="mid">
+                        <div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Emotional state -->
+                  <div class="emotion-board">
+                    <div class="board-title"><strong>Emotion</strong></div>
+                    <div class="emotion-row">
+                      <span class="emo-chip" data-emotion="">—</span>
+                      <span class="emo-style-chip">—</span>
+                    </div>
+                    <div class="emotion-details">
+                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
+                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
+                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Physical -->
+                <div class="phys-board">
+                  <div class="board-title"><strong>Environment</strong></div>
+                  <div class="phys-board-inner">
+                    <div class="phys-board-left">
+                      <div class="env-chips"></div>
+                      <div class="env-features">
+                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
+                      </div>
+                    </div>
+                    <div class="mic-map">
+                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/>
+                        <circle cx="40" cy="40" r="23" class="mic-ring r2"/>
+                        <circle cx="40" cy="40" r="12" class="mic-ring r1"/>
+                        <circle cx="40" cy="40" r="4" class="mic-center"/>
+                        <circle class="caller-dot" cx="40" cy="51" r="5"/>
+                      </svg>
+                      <span>mic proximity</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Interaction policy -->
+                <div class="phys-board">
+                  <div class="board-title"><strong>Interaction policy</strong></div>
+                  <div class="policy-board-live">
+                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
+                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
+                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
+                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
+                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="state-feed" data-at="400">
+                <div class="state-stream-label">internal state · generating</div>
+                <div class="state-stream" aria-live="polite"></div>
+              </div>
+            </section>
+
+            <aside class="rail cast-rail" aria-label="CAST response">
+              <div class="rail-label">CAST</div>
+              <div class="turn response" data-at="0">
+                <span>00:00</span>
+                <p>911, this is dispatcher Morgan. We received a call from this number that got disconnected. I'm just calling back to make sure everyone is okay.</p>
+              </div>
+              <div class="turn response alert" data-at="16500">
+                <span>00:16</span>
+                <p>Okay. I hear you. You sound very upset, so I'm going to slow this down. Is anyone there hurt?</p>
+              </div>
+              <div class="turn response" data-at="35500">
+                <span>00:35</span>
+                <p>Alright. And are you safe where you are right now?</p>
+              </div>
+              <div class="turn response" data-at="47000">
+                <span>00:47</span>
+                <p>Alright. Since you sound this upset, I'm going to keep the line open with you for a moment. You don't need to say anything else unless something changes.</p>
+              </div>
+            </aside>
+          </div>
+        </article>
+              </div>
+            </div>
+            <div class="scenario-panel" data-cat="call">
+              <button class="scenario-toggle" aria-expanded="false" type="button">
+                <span class="scenario-dot"></span>
+                <span class="scenario-num">02</span>
+                <span class="scenario-name"><strong>Wire fraud · bank call</strong><em>duress · physical grounding</em></span>
+                <span class="scenario-chev"></span>
+              </button>
+              <div class="scenario-body" hidden>
+<article class="story-scene" data-scene="wirefraud" data-audio="audio/grounding/c02.mp3">
+          <div class="scene-meta">
+            <div><span>02</span><strong>Wire Fraud · bank call</strong></div>
+            <div class="scene-meta-right">
+              <button class="play-session" type="button"><i></i>Run session</button>
+            </div>
+          </div>
+
+          <div class="conversation-grid">
+            <aside class="rail user-rail" aria-label="Customer transcript">
+              <div class="rail-label">Caller</div>
+              <div class="turn active" data-at="0">
+                <span>00:00</span>
+                <p>Yes. I authorized the transfer. It's fine. Please let it go through.</p>
+              </div>
+              <div class="turn" data-at="25000">
+                <span>00:25</span>
+                <p>Yes. I can talk.</p>
+              </div>
+              <div class="turn" data-at="33000">
+                <span>00:33</span>
+                <p>Daniel Mercer. It's for a used car deposit.</p>
+              </div>
+              <div class="turn" data-at="39000">
+                <span>00:39</span>
+                <p>Through online banking.</p>
+              </div>
+              <div class="turn cue-turn" data-at="49500">
+                <span>00:49</span>
+                <p>Okay. I authorized it.</p>
+              </div>
+            </aside>
+
+            <section class="mind-panel" aria-label="CAST internal state">
+              <div class="mind-header">
+                <div><span>Internal state head</span><strong>Reading the room.</strong></div>
+                <em>layer 2 · physical grounding</em>
+              </div>
+
+              <div class="visual-stack">
+                <div class="cog-emo-row">
+                  <div class="cog-board">
+                    <div class="board-title"><strong>Cognitive</strong></div>
+                    <div class="cog-bars">
+                      <div class="cog-bar" data-bar="choicert" data-level="mid">
+                        <div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                      <div class="cog-bar" data-bar="gradcpt" data-level="mid">
+                        <div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                      <div class="cog-bar" data-bar="dsm" data-level="mid">
+                        <div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                      <div class="cog-bar" data-bar="mot" data-level="mid">
+                        <div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="emotion-board">
+                    <div class="board-title"><strong>Emotion</strong></div>
+                    <div class="emotion-row">
+                      <span class="emo-chip" data-emotion="">—</span>
+                      <span class="emo-style-chip">—</span>
+                    </div>
+                    <div class="emotion-details">
+                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
+                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
+                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="phys-board">
+                  <div class="board-title"><strong>Environment</strong></div>
+                  <div class="phys-board-inner">
+                    <div class="phys-board-left">
+                      <div class="env-chips"></div>
+                      <div class="env-features">
+                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
+                      </div>
+                    </div>
+                    <div class="mic-map">
+                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/>
+                        <circle cx="40" cy="40" r="23" class="mic-ring r2"/>
+                        <circle cx="40" cy="40" r="12" class="mic-ring r1"/>
+                        <circle cx="40" cy="40" r="4" class="mic-center"/>
+                        <circle class="caller-dot" cx="40" cy="52" r="5"/>
+                      </svg>
+                      <span>mic proximity</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="phys-board">
+                  <div class="board-title"><strong>Interaction policy</strong></div>
+                  <div class="policy-board-live">
+                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
+                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
+                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
+                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
+                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="state-feed" data-at="400">
+                <div class="state-stream-label">internal state · generating</div>
+                <div class="state-stream" aria-live="polite"></div>
+              </div>
+            </section>
+
+            <aside class="rail cast-rail" aria-label="CAST response">
+              <div class="rail-label">CAST</div>
+              <div class="turn response" data-at="0">
+                <span>00:00</span>
+                <p>Hello, this is Morgan from Northstar Bank fraud prevention. I'm calling about a wire transfer request for $8,400. I need to verify whether you authorized this.</p>
+              </div>
+              <div class="turn response alert" data-at="18500">
+                <span>00:18</span>
+                <p>Okay. Before I clear anything — are you somewhere private enough to keep talking for a minute?</p>
+              </div>
+              <div class="turn response" data-at="28000">
+                <span>00:28</span>
+                <p>Alright. Then please confirm the recipient's name and what the payment is for.</p>
+              </div>
+              <div class="turn response" data-at="41000">
+                <span>00:41</span>
+                <p>Okay. For your security, I'm going to keep this under review and verify it through the trusted number already on your account before anything is released.</p>
+              </div>
+              <div class="turn response" data-at="52000">
+                <span>00:52</span>
+                <p>Thank you. We'll contact you again through the number on file.</p>
+              </div>
+            </aside>
+          </div>
+        </article>
+              </div>
+            </div>
+            <div class="scenario-panel" data-cat="call">
+              <button class="scenario-toggle" aria-expanded="false" type="button">
+                <span class="scenario-dot"></span>
+                <span class="scenario-num">03</span>
+                <span class="scenario-name"><strong>Old man lost · outdoors</strong><em>spatial confusion · interaction policy</em></span>
+                <span class="scenario-chev"></span>
+              </button>
+              <div class="scenario-body" hidden>
+<article class="story-scene" data-scene="olderman" data-audio="audio/grounding/c03.mp3">
+          <div class="scene-meta">
+            <div><span>03</span><strong>Old man lost · outdoors</strong></div>
+            <div class="scene-meta-right">
+              <button class="play-session" type="button"><i></i>Run session</button>
+            </div>
+          </div>
+
+          <div class="conversation-grid">
+            <aside class="rail user-rail" aria-label="Caller transcript">
+              <div class="rail-label">Caller</div>
+              <div class="turn active" data-at="0">
+                <span>00:00</span>
+                <p>Uh... hello? I think I got turned around. I was trying to go back home and now I... I'm not sure where I came out.</p>
+              </div>
+              <div class="turn" data-at="25000">
+                <span>00:25</span>
+                <p>Um... just give me a second here. I'm walking, but slowly. I don't really see anybody near me. Nobody is walking. It's mostly cars.</p>
+              </div>
+              <div class="turn" data-at="43000">
+                <span>00:43</span>
+                <p>Hold on... there's a sign here, I think. I can only read part of it. Philip... no, wait... maybe Phillips. Phillips Avenue? I can't quite make it out from here.</p>
+              </div>
+              <div class="turn" data-at="63000">
+                <span>01:03</span>
+                <p>Yeah... yeah, wait. I think I see something. Maybe a church. A brick building, I think. I can go that way.</p>
+              </div>
+              <div class="turn" data-at="79000">
+                <span>01:19</span>
+                <p>Okay. I'm going slowly. I think... yes, I think that's it. I'm closer now.</p>
+              </div>
+              <div class="turn" data-at="93000">
+                <span>01:33</span>
+                <p>Uh... yes, maybe. There's a kind of covered part. But I can still see the church thing.</p>
+              </div>
+            </aside>
+
+            <section class="mind-panel" aria-label="CAST internal state">
+              <div class="mind-header">
+                <div><span>Internal state head</span><strong>Deciding when to step in.</strong></div>
+                <em>layer 3 · interaction policy</em>
+              </div>
+
+              <div class="visual-stack">
+                <div class="cog-emo-row">
+                  <div class="cog-board">
+                    <div class="board-title"><strong>Cognitive</strong></div>
+                    <div class="cog-bars">
+                      <div class="cog-bar" data-bar="choicert" data-level="mid">
+                        <div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                      <div class="cog-bar" data-bar="gradcpt" data-level="mid">
+                        <div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                      <div class="cog-bar" data-bar="dsm" data-level="mid">
+                        <div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                      <div class="cog-bar" data-bar="mot" data-level="mid">
+                        <div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div>
+                        <div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div>
+                        <strong class="cog-val">—</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="emotion-board">
+                    <div class="board-title"><strong>Emotion</strong></div>
+                    <div class="emotion-row">
+                      <span class="emo-chip" data-emotion="">—</span>
+                      <span class="emo-style-chip">—</span>
+                    </div>
+                    <div class="emotion-details">
+                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
+                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
+                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="phys-board">
+                  <div class="board-title"><strong>Environment</strong></div>
+                  <div class="phys-board-inner">
+                    <div class="phys-board-left">
+                      <div class="env-chips"></div>
+                      <div class="env-features">
+                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
+                      </div>
+                    </div>
+                    <div class="mic-map">
+                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/>
+                        <circle cx="40" cy="40" r="23" class="mic-ring r2"/>
+                        <circle cx="40" cy="40" r="12" class="mic-ring r1"/>
+                        <circle cx="40" cy="40" r="4" class="mic-center"/>
+                        <circle class="caller-dot" cx="25" cy="58" r="5"/>
+                      </svg>
+                      <span>mic proximity</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="phys-board">
+                  <div class="board-title"><strong>Interaction policy</strong></div>
+                  <div class="policy-board-live">
+                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
+                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
+                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
+                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
+                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="state-feed" data-at="400">
+                <div class="state-stream-label">internal state · generating</div>
+                <div class="state-stream" aria-live="polite"></div>
+              </div>
+            </section>
+
+            <aside class="rail cast-rail" aria-label="CAST response">
+              <div class="rail-label">CAST</div>
+              <div class="turn response" data-at="0">
+                <span>00:00</span>
+                <p>Emergency services. Tell me where you are, as best you can.</p>
+              </div>
+              <div class="turn response" data-at="18000">
+                <span>00:18</span>
+                <p>Okay. Let's try for a sign or a landmark. I can hear cars near you, so keep on the sidewalk while you look.</p>
+              </div>
+              <div class="turn response" data-at="38000">
+                <span>00:38</span>
+                <p>That's okay. Keep to the side. Do you see any sign close by?</p>
+              </div>
+              <div class="turn response alert" data-at="57000">
+                <span>00:57</span>
+                <p>Phillips Avenue, maybe. Good. I hear church bells too. Can you look around for a church or a tower?</p>
+              </div>
+              <div class="turn response" data-at="73000">
+                <span>01:13</span>
+                <p>Good. Walk on the sidewalk toward it, slowly. When you get near it, stop there.</p>
+              </div>
+              <div class="turn response" data-at="87000">
+                <span>01:27</span>
+                <p>I hear the ground changing. Are you near a bridge or underpass now?</p>
+              </div>
+              <div class="turn response wide" data-at="100000">
+                <span>01:40</span>
+                <p>Great. Stay by the church side, off the road. Keep the phone with you. That's enough for us to come toward you.</p>
+              </div>
+            </aside>
+          </div>
+        </article>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="scenario-category" data-cat="psych">
+            <div class="cat-header"><span class="cat-name">Psychiatry tasks</span><span class="cat-sub">Clinician-led cognitive assessment</span></div>
+            <div class="scenario-list">
+            <div class="scenario-panel" data-cat="psych">
+              <button class="scenario-toggle" aria-expanded="false" type="button">
+                <span class="scenario-dot"></span>
+                <span class="scenario-num">04</span>
+                <span class="scenario-name"><strong>Household object recall</strong><em>memory · retrieval grounding</em></span>
+                <span class="scenario-chev"></span>
+              </button>
+              <div class="scenario-body" hidden>
+<article class="story-scene" data-scene="object_recall_natural" data-audio="audio/grounding/c04.mp3">
+                <div class="scene-meta">
+                  <div><span>04</span><strong>Household object recall</strong></div>
+                  <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
+                </div>
+                <div class="conversation-grid">
+                  <aside class="rail user-rail" aria-label="Transcript"><div class="rail-label">Participant</div></aside>
+            <section class="mind-panel" aria-label="CAST internal state">
+              <div class="mind-header">
+                <div><span>Internal state head</span><strong>Reading internal state.</strong></div>
+                <em>live · cognitive · emotional · physical</em>
+              </div>
+              <div class="visual-stack">
+                <div class="cog-emo-row">
+                  <div class="cog-board">
+                    <div class="board-title"><strong>Cognitive</strong></div>
+                    <div class="cog-bars">
+                      <div class="cog-bar" data-bar="choicert" data-level="mid"><div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="gradcpt" data-level="mid"><div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="dsm" data-level="mid"><div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="mot" data-level="mid"><div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                    </div>
+                  </div>
+                  <div class="emotion-board">
+                    <div class="board-title"><strong>Emotion</strong></div>
+                    <div class="emotion-row"><span class="emo-chip" data-emotion="">—</span><span class="emo-style-chip">—</span></div>
+                    <div class="emotion-details">
+                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
+                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
+                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Environment</strong></div>
+                  <div class="phys-board-inner">
+                    <div class="phys-board-left">
+                      <div class="env-chips"></div>
+                      <div class="env-features">
+                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
+                      </div>
+                    </div>
+                    <div class="mic-map">
+                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/><circle cx="40" cy="40" r="23" class="mic-ring r2"/><circle cx="40" cy="40" r="12" class="mic-ring r1"/><circle cx="40" cy="40" r="4" class="mic-center"/><circle class="caller-dot" cx="40" cy="51" r="5"/>
+                      </svg>
+                      <span>mic proximity</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Interaction policy</strong></div>
+                  <div class="policy-board-live">
+                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
+                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
+                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
+                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
+                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
+                  </div>
+                </div>
+              </div>
+              <div class="state-feed" data-at="400">
+                <div class="state-stream-label">internal state · generating</div>
+                <div class="state-stream" aria-live="polite"></div>
+              </div>
+            </section>
+                  <aside class="rail cast-rail" aria-label="CAST response"><div class="rail-label">CAST</div></aside>
+                </div>
+              </article>
+              </div>
+            </div>
+            <div class="scenario-panel" data-cat="psych">
+              <button class="scenario-toggle" aria-expanded="false" type="button">
+                <span class="scenario-dot"></span>
+                <span class="scenario-num">05</span>
+                <span class="scenario-name"><strong>Story summarization</strong><em>gist extraction · structuring</em></span>
+                <span class="scenario-chev"></span>
+              </button>
+              <div class="scenario-body" hidden>
+<article class="story-scene" data-scene="news_summary_natural" data-audio="audio/grounding/c05.mp3">
+                <div class="scene-meta">
+                  <div><span>05</span><strong>News-story summary</strong></div>
+                  <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
+                </div>
+                <div class="conversation-grid">
+                  <aside class="rail user-rail" aria-label="Transcript"><div class="rail-label">Participant</div></aside>
+            <section class="mind-panel" aria-label="CAST internal state">
+              <div class="mind-header">
+                <div><span>Internal state head</span><strong>Reading internal state.</strong></div>
+                <em>live · cognitive · emotional · physical</em>
+              </div>
+              <div class="visual-stack">
+                <div class="cog-emo-row">
+                  <div class="cog-board">
+                    <div class="board-title"><strong>Cognitive</strong></div>
+                    <div class="cog-bars">
+                      <div class="cog-bar" data-bar="choicert" data-level="mid"><div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="gradcpt" data-level="mid"><div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="dsm" data-level="mid"><div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="mot" data-level="mid"><div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                    </div>
+                  </div>
+                  <div class="emotion-board">
+                    <div class="board-title"><strong>Emotion</strong></div>
+                    <div class="emotion-row"><span class="emo-chip" data-emotion="">—</span><span class="emo-style-chip">—</span></div>
+                    <div class="emotion-details">
+                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
+                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
+                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Environment</strong></div>
+                  <div class="phys-board-inner">
+                    <div class="phys-board-left">
+                      <div class="env-chips"></div>
+                      <div class="env-features">
+                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
+                      </div>
+                    </div>
+                    <div class="mic-map">
+                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/><circle cx="40" cy="40" r="23" class="mic-ring r2"/><circle cx="40" cy="40" r="12" class="mic-ring r1"/><circle cx="40" cy="40" r="4" class="mic-center"/><circle class="caller-dot" cx="40" cy="51" r="5"/>
+                      </svg>
+                      <span>mic proximity</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Interaction policy</strong></div>
+                  <div class="policy-board-live">
+                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
+                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
+                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
+                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
+                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
+                  </div>
+                </div>
+              </div>
+              <div class="state-feed" data-at="400">
+                <div class="state-stream-label">internal state · generating</div>
+                <div class="state-stream" aria-live="polite"></div>
+              </div>
+            </section>
+                  <aside class="rail cast-rail" aria-label="CAST response"><div class="rail-label">CAST</div></aside>
+                </div>
+              </article>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="scenario-category" data-cat="adl">
+            <div class="cat-header"><span class="cat-name">Assistant for daily living</span><span class="cat-sub">Everyday support at home</span></div>
+            <div class="scenario-list">
+            <div class="scenario-panel" data-cat="adl">
+              <button class="scenario-toggle" aria-expanded="false" type="button">
+                <span class="scenario-dot"></span>
+                <span class="scenario-num">06</span>
+                <span class="scenario-name"><strong>Name–face recall</strong><em>associative memory · cueing</em></span>
+                <span class="scenario-chev"></span>
+              </button>
+              <div class="scenario-body" hidden>
+<article class="story-scene" data-scene="name_face_natural" data-audio="audio/grounding/c06.mp3">
+                <div class="scene-meta">
+                  <div><span>06</span><strong>Name–face recall</strong></div>
+                  <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
+                </div>
+                <div class="conversation-grid">
+                  <aside class="rail user-rail" aria-label="Transcript"><div class="rail-label">Participant</div></aside>
+            <section class="mind-panel" aria-label="CAST internal state">
+              <div class="mind-header">
+                <div><span>Internal state head</span><strong>Reading internal state.</strong></div>
+                <em>live · cognitive · emotional · physical</em>
+              </div>
+              <div class="visual-stack">
+                <div class="cog-emo-row">
+                  <div class="cog-board">
+                    <div class="board-title"><strong>Cognitive</strong></div>
+                    <div class="cog-bars">
+                      <div class="cog-bar" data-bar="choicert" data-level="mid"><div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="gradcpt" data-level="mid"><div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="dsm" data-level="mid"><div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="mot" data-level="mid"><div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                    </div>
+                  </div>
+                  <div class="emotion-board">
+                    <div class="board-title"><strong>Emotion</strong></div>
+                    <div class="emotion-row"><span class="emo-chip" data-emotion="">—</span><span class="emo-style-chip">—</span></div>
+                    <div class="emotion-details">
+                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
+                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
+                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Environment</strong></div>
+                  <div class="phys-board-inner">
+                    <div class="phys-board-left">
+                      <div class="env-chips"></div>
+                      <div class="env-features">
+                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
+                      </div>
+                    </div>
+                    <div class="mic-map">
+                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/><circle cx="40" cy="40" r="23" class="mic-ring r2"/><circle cx="40" cy="40" r="12" class="mic-ring r1"/><circle cx="40" cy="40" r="4" class="mic-center"/><circle class="caller-dot" cx="40" cy="51" r="5"/>
+                      </svg>
+                      <span>mic proximity</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Interaction policy</strong></div>
+                  <div class="policy-board-live">
+                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
+                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
+                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
+                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
+                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
+                  </div>
+                </div>
+              </div>
+              <div class="state-feed" data-at="400">
+                <div class="state-stream-label">internal state · generating</div>
+                <div class="state-stream" aria-live="polite"></div>
+              </div>
+            </section>
+                  <aside class="rail cast-rail" aria-label="CAST response"><div class="rail-label">CAST</div></aside>
+                </div>
+              </article>
+              </div>
+            </div>
+            <div class="scenario-panel" data-cat="adl">
+              <button class="scenario-toggle" aria-expanded="false" type="button">
+                <span class="scenario-dot"></span>
+                <span class="scenario-num">07</span>
+                <span class="scenario-name"><strong>Simple meal planning</strong><em>executive sequencing · safety</em></span>
+                <span class="scenario-chev"></span>
+              </button>
+              <div class="scenario-body" hidden>
+<article class="story-scene" data-scene="meal_planning_natural" data-audio="audio/grounding/c07.mp3">
+                <div class="scene-meta">
+                  <div><span>07</span><strong>Simple meal planning</strong></div>
+                  <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
+                </div>
+                <div class="conversation-grid">
+                  <aside class="rail user-rail" aria-label="Transcript"><div class="rail-label">Participant</div></aside>
+            <section class="mind-panel" aria-label="CAST internal state">
+              <div class="mind-header">
+                <div><span>Internal state head</span><strong>Reading internal state.</strong></div>
+                <em>live · cognitive · emotional · physical</em>
+              </div>
+              <div class="visual-stack">
+                <div class="cog-emo-row">
+                  <div class="cog-board">
+                    <div class="board-title"><strong>Cognitive</strong></div>
+                    <div class="cog-bars">
+                      <div class="cog-bar" data-bar="choicert" data-level="mid"><div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="gradcpt" data-level="mid"><div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="dsm" data-level="mid"><div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="mot" data-level="mid"><div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                    </div>
+                  </div>
+                  <div class="emotion-board">
+                    <div class="board-title"><strong>Emotion</strong></div>
+                    <div class="emotion-row"><span class="emo-chip" data-emotion="">—</span><span class="emo-style-chip">—</span></div>
+                    <div class="emotion-details">
+                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
+                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
+                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Environment</strong></div>
+                  <div class="phys-board-inner">
+                    <div class="phys-board-left">
+                      <div class="env-chips"></div>
+                      <div class="env-features">
+                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
+                      </div>
+                    </div>
+                    <div class="mic-map">
+                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/><circle cx="40" cy="40" r="23" class="mic-ring r2"/><circle cx="40" cy="40" r="12" class="mic-ring r1"/><circle cx="40" cy="40" r="4" class="mic-center"/><circle class="caller-dot" cx="40" cy="51" r="5"/>
+                      </svg>
+                      <span>mic proximity</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Interaction policy</strong></div>
+                  <div class="policy-board-live">
+                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
+                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
+                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
+                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
+                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
+                  </div>
+                </div>
+              </div>
+              <div class="state-feed" data-at="400">
+                <div class="state-stream-label">internal state · generating</div>
+                <div class="state-stream" aria-live="polite"></div>
+              </div>
+            </section>
+                  <aside class="rail cast-rail" aria-label="CAST response"><div class="rail-label">CAST</div></aside>
+                </div>
+              </article>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="scenario-category" data-cat="learn">
+            <div class="cat-header"><span class="cat-name">Learning</span><span class="cat-sub">Grounded tutoring</span></div>
+            <div class="scenario-list">
+            <div class="scenario-panel" data-cat="learn">
+              <button class="scenario-toggle" aria-expanded="false" type="button">
+                <span class="scenario-dot"></span>
+                <span class="scenario-num">08</span>
+                <span class="scenario-name"><strong>Gradient-descent tutor</strong><em>learning · self-repair</em></span>
+                <span class="scenario-chev"></span>
+              </button>
+              <div class="scenario-body" hidden>
+<article class="story-scene" data-scene="gradient_tutor" data-audio="audio/grounding/c08.mp3">
+                <div class="scene-meta">
+                  <div><span>08</span><strong>Gradient-descent tutor</strong></div>
+                  <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
+                </div>
+                <div class="conversation-grid">
+                  <aside class="rail user-rail" aria-label="Transcript"><div class="rail-label">Student</div></aside>
+            <section class="mind-panel" aria-label="CAST internal state">
+              <div class="mind-header">
+                <div><span>Internal state head</span><strong>Reading internal state.</strong></div>
+                <em>live · cognitive · emotional · physical</em>
+              </div>
+              <div class="visual-stack">
+                <div class="cog-emo-row">
+                  <div class="cog-board">
+                    <div class="board-title"><strong>Cognitive</strong></div>
+                    <div class="cog-bars">
+                      <div class="cog-bar" data-bar="choicert" data-level="mid"><div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="gradcpt" data-level="mid"><div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="dsm" data-level="mid"><div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="mot" data-level="mid"><div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                    </div>
+                  </div>
+                  <div class="emotion-board">
+                    <div class="board-title"><strong>Emotion</strong></div>
+                    <div class="emotion-row"><span class="emo-chip" data-emotion="">—</span><span class="emo-style-chip">—</span></div>
+                    <div class="emotion-details">
+                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
+                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
+                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Environment</strong></div>
+                  <div class="phys-board-inner">
+                    <div class="phys-board-left">
+                      <div class="env-chips"></div>
+                      <div class="env-features">
+                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
+                      </div>
+                    </div>
+                    <div class="mic-map">
+                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/><circle cx="40" cy="40" r="23" class="mic-ring r2"/><circle cx="40" cy="40" r="12" class="mic-ring r1"/><circle cx="40" cy="40" r="4" class="mic-center"/><circle class="caller-dot" cx="40" cy="51" r="5"/>
+                      </svg>
+                      <span>mic proximity</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Interaction policy</strong></div>
+                  <div class="policy-board-live">
+                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
+                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
+                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
+                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
+                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
+                  </div>
+                </div>
+              </div>
+              <div class="state-feed" data-at="400">
+                <div class="state-stream-label">internal state · generating</div>
+                <div class="state-stream" aria-live="polite"></div>
+              </div>
+            </section>
+                  <aside class="rail cast-rail" aria-label="CAST response"><div class="rail-label">CAST</div></aside>
+                </div>
+              </article>
+              </div>
+            </div>
+            <div class="scenario-panel" data-cat="learn">
+              <button class="scenario-toggle" aria-expanded="false" type="button">
+                <span class="scenario-dot"></span>
+                <span class="scenario-num">09</span>
+                <span class="scenario-name"><strong>Photosynthesis tutor</strong><em>overload · chunking support</em></span>
+                <span class="scenario-chev"></span>
+              </button>
+              <div class="scenario-body" hidden>
+<article class="story-scene" data-scene="photosynthesis_tutor" data-audio="audio/grounding/c09.mp3">
+                <div class="scene-meta">
+                  <div><span>09</span><strong>Photosynthesis tutor</strong></div>
+                  <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
+                </div>
+                <div class="conversation-grid">
+                  <aside class="rail user-rail" aria-label="Transcript"><div class="rail-label">Student</div></aside>
+            <section class="mind-panel" aria-label="CAST internal state">
+              <div class="mind-header">
+                <div><span>Internal state head</span><strong>Reading internal state.</strong></div>
+                <em>live · cognitive · emotional · physical</em>
+              </div>
+              <div class="visual-stack">
+                <div class="cog-emo-row">
+                  <div class="cog-board">
+                    <div class="board-title"><strong>Cognitive</strong></div>
+                    <div class="cog-bars">
+                      <div class="cog-bar" data-bar="choicert" data-level="mid"><div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="gradcpt" data-level="mid"><div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="dsm" data-level="mid"><div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="mot" data-level="mid"><div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                    </div>
+                  </div>
+                  <div class="emotion-board">
+                    <div class="board-title"><strong>Emotion</strong></div>
+                    <div class="emotion-row"><span class="emo-chip" data-emotion="">—</span><span class="emo-style-chip">—</span></div>
+                    <div class="emotion-details">
+                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
+                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
+                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Environment</strong></div>
+                  <div class="phys-board-inner">
+                    <div class="phys-board-left">
+                      <div class="env-chips"></div>
+                      <div class="env-features">
+                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
+                      </div>
+                    </div>
+                    <div class="mic-map">
+                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/><circle cx="40" cy="40" r="23" class="mic-ring r2"/><circle cx="40" cy="40" r="12" class="mic-ring r1"/><circle cx="40" cy="40" r="4" class="mic-center"/><circle class="caller-dot" cx="40" cy="51" r="5"/>
+                      </svg>
+                      <span>mic proximity</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Interaction policy</strong></div>
+                  <div class="policy-board-live">
+                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
+                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
+                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
+                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
+                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
+                  </div>
+                </div>
+              </div>
+              <div class="state-feed" data-at="400">
+                <div class="state-stream-label">internal state · generating</div>
+                <div class="state-stream" aria-live="polite"></div>
+              </div>
+            </section>
+                  <aside class="rail cast-rail" aria-label="CAST response"><div class="rail-label">CAST</div></aside>
+                </div>
+              </article>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="scenario-category" data-cat="robot">
+            <div class="cat-header"><span class="cat-name">Physical robot interaction</span><span class="cat-sub">Machines that read the room</span></div>
+            <div class="scenario-list">
+            <div class="scenario-panel" data-cat="robot">
+              <button class="scenario-toggle" aria-expanded="false" type="button">
+                <span class="scenario-dot"></span>
+                <span class="scenario-num">10</span>
+                <span class="scenario-name"><strong>Factory-floor safety</strong><em>physical grounding · safety stop</em></span>
+                <span class="scenario-chev"></span>
+              </button>
+              <div class="scenario-body" hidden>
+<article class="story-scene" data-scene="factory_safety" data-audio="audio/grounding/c10.mp3">
+                <div class="scene-meta">
+                  <div><span>10</span><strong>Factory-floor safety</strong></div>
+                  <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
+                </div>
+                <div class="conversation-grid">
+                  <aside class="rail user-rail" aria-label="Transcript"><div class="rail-label">Worker</div></aside>
+            <section class="mind-panel" aria-label="CAST internal state">
+              <div class="mind-header">
+                <div><span>Internal state head</span><strong>Reading internal state.</strong></div>
+                <em>live · cognitive · emotional · physical</em>
+              </div>
+              <div class="visual-stack">
+                <div class="cog-emo-row">
+                  <div class="cog-board">
+                    <div class="board-title"><strong>Cognitive</strong></div>
+                    <div class="cog-bars">
+                      <div class="cog-bar" data-bar="choicert" data-level="mid"><div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="gradcpt" data-level="mid"><div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="dsm" data-level="mid"><div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                      <div class="cog-bar" data-bar="mot" data-level="mid"><div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
+                    </div>
+                  </div>
+                  <div class="emotion-board">
+                    <div class="board-title"><strong>Emotion</strong></div>
+                    <div class="emotion-row"><span class="emo-chip" data-emotion="">—</span><span class="emo-style-chip">—</span></div>
+                    <div class="emotion-details">
+                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
+                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
+                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Environment</strong></div>
+                  <div class="phys-board-inner">
+                    <div class="phys-board-left">
+                      <div class="env-chips"></div>
+                      <div class="env-features">
+                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
+                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
+                      </div>
+                    </div>
+                    <div class="mic-map">
+                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/><circle cx="40" cy="40" r="23" class="mic-ring r2"/><circle cx="40" cy="40" r="12" class="mic-ring r1"/><circle cx="40" cy="40" r="4" class="mic-center"/><circle class="caller-dot" cx="40" cy="51" r="5"/>
+                      </svg>
+                      <span>mic proximity</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="phys-board">
+                  <div class="board-title"><strong>Interaction policy</strong></div>
+                  <div class="policy-board-live">
+                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
+                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
+                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
+                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
+                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
+                  </div>
+                </div>
+              </div>
+              <div class="state-feed" data-at="400">
+                <div class="state-stream-label">internal state · generating</div>
+                <div class="state-stream" aria-live="polite"></div>
+              </div>
+            </section>
+                  <aside class="rail cast-rail" aria-label="CAST response"><div class="rail-label">CAST</div></aside>
+                </div>
+              </article>
+              </div>
+            </div>
+            </div>
+          </div>
+      </section>
+
+      <!-- ── Research foundation ────────────────────────────────────────── -->
+      <section class="research-section">
+        <div class="research-header">
+          <span>What's underneath</span>
+          <p>Click any panel to open.</p>
+        </div>
+        <div class="pillar-strip">
+          <div class="pillar-item"><strong>Technology · CAST</strong><span>Speech intelligence layer · 0.7B &amp; 1.1B speech LMs</span></div>
+          <div class="pillar-item"><strong>Benchmarks</strong><span>SOTA on SALMON · our COAST grounding suite</span></div>
+          <div class="pillar-item"><strong>Data</strong><span>Speech + cognitive measurement · 1.4M-hr corpora</span></div>
+          <div class="pillar-item"><strong>Patent</strong><span>Cognition-aware conversation · pending, ISR issued</span></div>
+        </div>
+
+        <div class="research-panels">
+
+          <!-- Panel A · Technology: CAST -->
+          <div class="research-panel" id="panel-tech">
+            <button class="panel-toggle" aria-expanded="false" type="button">
+              <div class="panel-tag">A</div>
+              <div class="panel-summary">
+                <strong>Technology · CAST</strong>
+                <em>The speech intelligence layer · 0.7B &amp; 1.1B · developed in-house</em>
+              </div>
+              <div class="panel-chevron"></div>
+            </button>
+            <div class="panel-body" hidden>
+              <div class="panel-lede">
+                <p><strong>CAST is our speech intelligence layer</strong> — a speech language model optimized for acoustic consistency, semantic grounding, and real-time speech generation. Developed in-house at 0.7B and 1.1B parameters.</p>
+              </div>
+
+              <div class="tech-features">
+                <div class="tech-feature"><span>01</span><strong>Speech-native language models</strong><em>trained on raw speech, not transcripts</em></div>
+                <div class="tech-feature"><span>02</span><strong>Speech-to-speech generation</strong><em>listen and speak in one model, no separate ASR/TTS</em></div>
+                <div class="tech-feature"><span>03</span><strong>Interleaved speech + text models</strong><em>codec speech tokens and BPE text tokens in one stream</em></div>
+              </div>
+
+              <div class="interleave-fig">
+                <img src="img/interleaved_tokens.png" alt="Interleaved speech and text tokens: codec speech tokens and BPE text tokens in one stream" />
+                <p class="fig-caption">One stream, two token types — codec speech tokens and BPE text tokens interleaved, so the model reads and writes speech and text together.</p>
+              </div>
+
+              <div class="tech-specs">
+                <div class="tech-spec"><strong>0.7B &amp; 1.1B</strong><span>parameter models<br>developed in-house</span></div>
+                <div class="tech-spec"><strong>25,000+</strong><span>Hugging Face downloads<br>and a public demo live</span></div>
+                <div class="tech-spec"><strong>Speech-native</strong><span>speech-to-speech<br>no separate ASR / TTS</span></div>
+                <div class="tech-spec"><strong>Interleaved</strong><span>speech + text tokens<br>in a single stream</span></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Panel B · Benchmarks -->
+          <div class="research-panel" id="panel-bench">
+            <button class="panel-toggle" aria-expanded="false" type="button">
+              <div class="panel-tag">B</div>
+              <div class="panel-summary">
+                <strong>Benchmarks</strong>
+                <em>SALMON (public) SOTA · COAST grounding suite (ours)</em>
+              </div>
+              <div class="panel-chevron"></div>
+            </button>
+            <div class="panel-body" hidden>
+              <div class="panel-lede">
+                <p>On the public <strong>SALMON</strong> acoustic-consistency benchmark, CAST leads models many times its size. We also built <strong>COAST</strong>, our own suite for grounded conversational AI across three tiers.</p>
+              </div>
+
+              <div class="bench-section">
+                <div class="bench-title">SALMON — Acoustic Consistency Benchmark <span class="bench-tag public">public</span></div>
+                <p class="bench-desc">Public benchmark for semantic and acoustic consistency in speech LMs. Our CAST-0.7B leads 5 of 9 metrics against models up to 8B parameters.</p>
+                <div class="salmon-scroll">
+                  <table class="salmon-table">
+                    <thead>
+                      <tr>
+                        <th>Model</th><th>Sent.</th><th>Speaker</th><th>Gender</th><th>BG (in)</th><th>BG (rnd)</th><th>Room</th><th>Sent. align</th><th>BG align</th><th>sWUGGY</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="row-human"><td>Human</td><td>97.2</td><td>91.2</td><td>98.6</td><td>83.1</td><td>88.7</td><td>94.4</td><td>93.3</td><td>95.7</td><td>—</td></tr>
+                      <tr><td>LAST 1.3B</td><td>65.0</td><td>64.5</td><td>68.5</td><td>56.0</td><td>61.0</td><td>62.5</td><td>53.5</td><td>53.0</td><td>73.6</td></tr>
+                      <tr><td>TWIST 7B</td><td>61.5</td><td>71.0</td><td>70.0</td><td>55.0</td><td>60.5</td><td>62.0</td><td>51.5</td><td>54.5</td><td class="best">82.8</td></tr>
+                      <tr><td>pGSLM</td><td>40.5</td><td>83.0</td><td>88.5</td><td>57.0</td><td>66.0</td><td>53.5</td><td class="best">55.5</td><td>53.5</td><td>74.1</td></tr>
+                      <tr><td>SPIRIT LM</td><td>54.5</td><td>69.5</td><td>67.0</td><td>53.5</td><td>55.5</td><td>54.5</td><td>48.0</td><td>51.5</td><td>75.5</td></tr>
+                      <tr><td>SPIRIT LM Expr.</td><td>73.5</td><td>81.0</td><td>85.0</td><td>55.0</td><td>64.0</td><td>54.5</td><td>52.0</td><td>59.5</td><td>72.7</td></tr>
+                      <tr><td>Flow-SLM 270M</td><td>61.5</td><td>75.5</td><td>78.0</td><td>69.0</td><td>67.0</td><td>73.5</td><td>60.0</td><td>55.5</td><td>77.6</td></tr>
+                      <tr><td>Flow-SLM 1B-ext</td><td>65.0</td><td>76.5</td><td>80.0</td><td>70.0</td><td>64.5</td><td>73.5</td><td>57.0</td><td>53.0</td><td>73.2</td></tr>
+                      <tr><td>LLaMa-Mimi 1.3B</td><td>79.0</td><td>85.0</td><td>83.5</td><td>—</td><td>73.5</td><td class="best">92.0</td><td>48.5</td><td>53.5</td><td>68.7</td></tr>
+                      <tr><td>LLaMa-Mimi 8B</td><td>76.5</td><td>86.5</td><td>85.5</td><td>—</td><td>73.0</td><td class="best">92.0</td><td>46.5</td><td>52.5</td><td>68.8</td></tr>
+                      <tr class="row-cast"><td>CAST-0.7B <span class="model-tag">ours</span></td><td class="best">81.8</td><td class="best">90.8</td><td class="best">90.0</td><td class="best">80.0</td><td class="best">77.5</td><td>90.0</td><td>51.0</td><td>56.0</td><td>65.6</td></tr>
+                      <tr class="row-cast"><td>CAST-1.1B <span class="model-tag">ours</span></td><td class="best">81.8</td><td>90.0</td><td class="best">90.0</td><td>78.0</td><td>68.5</td><td class="best">91.0</td><td>48.5</td><td>51.5</td><td>67.0</td></tr>
+                      <tr class="row-cast"><td>CAST-1.1B s+t <span class="model-tag">ours</span></td><td>73.0</td><td>83.5</td><td>83.5</td><td>75.0</td><td>71.5</td><td>84.5</td><td>54.5</td><td class="best">58.0</td><td>73.7</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="table-note">CAST-0.7B leads 5 of 9 metrics against models up to 8B parameters — room consistency matches LLaMa-Mimi at a fraction of the size.</p>
+              </div>
+
+              <div class="bench-section">
+                <div class="bench-title">COAST — Conversational Grounding Benchmark <span class="bench-tag">ours</span></div>
+                <p class="bench-desc">Our own suite: 14 tasks across 3 tiers measuring perceptual, interaction, and long-context grounding, vs. GPT-5 Audio and Qwen. Human-validated with trivial-baseline checks. Best score per task highlighted.</p>
+                <div class="coast-table-wrap">
+                  <table class="coast-table">
+                    <thead>
+                      <tr>
+                        <th>Task</th>
+                        <th>GPT-5 Audio</th>
+                        <th>Qwen</th>
+                        <th class="col-cast">CAST <span class="ours-tag">ours</span></th>
+                        <th class="col-cast">CAST-IL <span class="ours-tag">ours</span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="tier-header"><td colspan="5">T1 · Acoustic perception</td></tr>
+                      <tr><td>Acoustic plausibility</td><td class="best">0.5224</td><td>0.2628</td><td class="col-cast">0.3558</td><td class="col-cast">0.4103</td></tr>
+                      <tr><td>Fine acoustic contrast</td><td>0.4968</td><td>0.4712</td><td class="col-cast best">0.5769</td><td class="col-cast">0.5096</td></tr>
+                      <tr><td>Foreground focus</td><td>0.3301</td><td>0.3333</td><td class="col-cast">0.3333</td><td class="col-cast best">0.3622</td></tr>
+                      <tr class="tier-header"><td colspan="5">T2 · Interaction grounding</td></tr>
+                      <tr><td>Speaker count</td><td>0.4519</td><td>0.4551</td><td class="col-cast">0.5321</td><td class="col-cast best">0.5449</td></tr>
+                      <tr><td>Delivery style</td><td>0.2628</td><td>0.2500</td><td class="col-cast">0.2628</td><td class="col-cast best">0.2660</td></tr>
+                      <tr><td>Dyadic matching</td><td class="best">0.5962</td><td>0.4904</td><td class="col-cast">0.5321</td><td class="col-cast">0.4936</td></tr>
+                      <tr><td>Turn holding</td><td>0.6667</td><td>0.4904</td><td class="col-cast">0.3558</td><td class="col-cast best">0.6731</td></tr>
+                      <tr><td>Delivery continuation</td><td>0.4647</td><td>0.5032</td><td class="col-cast">0.5801</td><td class="col-cast best">0.5962</td></tr>
+                      <tr><td>Acknowledgment cue</td><td>0.5032</td><td>0.5000</td><td class="col-cast">0.5032</td><td class="col-cast best">0.5064</td></tr>
+                      <tr><td>Clarification cue</td><td class="best">0.5192</td><td>0.5000</td><td class="col-cast">0.5000</td><td class="col-cast">0.5064</td></tr>
+                      <tr><td>Explicit repair cue</td><td>0.5392</td><td>0.4514</td><td class="col-cast">0.5486</td><td class="col-cast best">0.5486</td></tr>
+                      <tr class="tier-header"><td colspan="5">T3 · Long-context grounding</td></tr>
+                      <tr><td>Event window</td><td>0.2724</td><td>0.2500</td><td class="col-cast">0.2692</td><td class="col-cast best">0.2892</td></tr>
+                      <tr><td>Long-context retrieval</td><td class="best">0.2885</td><td>0.2500</td><td class="col-cast">0.2596</td><td class="col-cast">0.2372</td></tr>
+                      <tr><td>Narrative continuation</td><td>0.2917</td><td>0.3333</td><td class="col-cast">0.3109</td><td class="col-cast best">0.3590</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="table-note">Against GPT-5 Audio — a frontier model orders of magnitude larger — our small CAST-IL leads 9 of 14 grounding tasks, with CAST and CAST-IL competitive throughout.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel C · Data -->
+          <div class="research-panel" id="panel-data">
+            <button class="panel-toggle" aria-expanded="false" type="button">
+              <div class="panel-tag">C</div>
+              <div class="panel-summary">
+                <strong>Data</strong>
+                <em>Speech paired with cognitive measurement + 1.4M-hr corpora</em>
+              </div>
+              <div class="panel-chevron"></div>
+            </button>
+            <div class="panel-body" hidden>
+              <div class="panel-lede">
+                <p>Two data assets. A <strong>proprietary study</strong> pairing each speaker's voice with validated cognitive measurement — and <strong>large-scale speech &amp; text corpora</strong> for pre-training.</p>
+              </div>
+
+              <div class="data-block">
+                <div class="data-block-title">Proprietary cognition study <span class="bench-tag">ours</span></div>
+                <p class="bench-desc">Each participant records spontaneous-speech and picture-description tasks, paired in the same session with a battery of validated cognitive tests — so speech is directly linked to measured cognition.</p>
+                <div class="data-grid">
+                  <div class="data-stat"><strong>2,500</strong><span>sessions collected<br>× 6 minutes each</span></div>
+                  <div class="data-stat"><strong>250 hrs</strong><span>collected so far<br>2,500 × 6 min</span></div>
+                  <div class="data-stat"><strong>~4,000</strong><span>sessions at completion<br>target enrollment</span></div>
+                  <div class="data-stat highlight"><strong>400 hrs</strong><span>final study total<br>4,000 × 6 min</span></div>
+                </div>
+                <div class="cog-collect">
+                  <div class="cog-collect-label">Cognitive measures collected per session</div>
+                  <div class="cog-collect-grid">
+                    <div class="cog-collect-item"><strong>Choice Reaction Time</strong><span>response speed &amp; decision latency</span></div>
+                    <div class="cog-collect-item"><strong>Gradual-onset CPT</strong><span>sustained attention &amp; vigilance</span></div>
+                    <div class="cog-collect-item"><strong>Digit Symbol Matching</strong><span>processing speed &amp; working memory</span></div>
+                    <div class="cog-collect-item"><strong>Multiple Object Tracking</strong><span>divided visual attention</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="data-block">
+                <div class="data-block-title">Pre-training corpora <span class="bench-tag">in hand</span></div>
+                <p class="bench-desc">Large-scale speech and text already assembled, plus synthetic preference data being generated now.</p>
+                <div class="data-grid">
+                  <div class="data-stat"><strong>1.4M hrs</strong><span>speech</span></div>
+                  <div class="data-stat"><strong>60,000 hrs</strong><span>conversational speech</span></div>
+                  <div class="data-stat"><strong>250,000 hrs</strong><span>transcribed speech</span></div>
+                  <div class="data-stat"><strong>3T tokens</strong><span>text dataset</span></div>
+                </div>
+                <div class="data-synth">
+                  <span class="data-synth-dot"></span>
+                  <p><strong>Generating now:</strong> synthetic RLHF / preference data for alignment and interaction tuning.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel D · Patent -->
+          <div class="research-panel" id="panel-patent">
+            <button class="panel-toggle" aria-expanded="false" type="button">
+              <div class="panel-tag">D</div>
+              <div class="panel-summary">
+                <strong>Patent</strong>
+                <em>Cognition-aware conversational architecture · Patent Pending</em>
+              </div>
+              <div class="panel-chevron"></div>
+            </button>
+            <div class="panel-body" hidden>
+              <div class="panel-lede">
+                <p>Our pending patent covers a <strong>dynamic, cognition-aware conversational architecture</strong> — reading a speaker's state mid-conversation and adapting how the machine engages.</p>
+              </div>
+
+              <div class="patent-figure" aria-label="Cognition-aware conversational architecture">
+                <svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg" class="patent-arch-svg" role="img" aria-label="Conversational architecture">
+  <title id="title">Minimal conversational architecture diagram</title>
+  <desc id="desc">A clean scientific architecture diagram showing Incremental Speech Stream flowing into Continuous Conversation State, branching into Cognitive Grounding and Interaction Policy, merging into Continuous Response Engine, and producing an Adaptive AI Response.</desc>
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .label { font: 600 24px "Helvetica Neue", Arial, sans-serif; fill: #111827; }
+      .stroke-black { stroke: #111827; }
+      .fill-white { fill: #ffffff; }
+      .thin { stroke-width: 2; }
+      .med { stroke-width: 2.4; }
+      .round { stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+    <marker id="arrow-black" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 z" fill="#111827"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="900"/>
+
+  <rect x="400" y="80" width="400" height="80" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
+  <text class="label" x="600" y="128" text-anchor="middle">Incremental Speech Stream</text>
+
+  <line x1="600" y1="160" x2="600" y2="235" class="stroke-black med round" marker-end="url(#arrow-black)"/>
+
+  <rect x="360" y="240" width="480" height="88" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
+  <text class="label" x="600" y="293" text-anchor="middle">Continuous Conversation State</text>
+
+  <line x1="600" y1="328" x2="600" y2="390" class="stroke-black med round"/>
+  <line x1="600" y1="390" x2="350" y2="390" class="stroke-black med round"/>
+  <line x1="600" y1="390" x2="850" y2="390" class="stroke-black med round"/>
+  <line x1="350" y1="390" x2="350" y2="430" class="stroke-black med round" marker-end="url(#arrow-black)"/>
+  <line x1="850" y1="390" x2="850" y2="430" class="stroke-black med round" marker-end="url(#arrow-black)"/>
+
+  <rect x="160" y="440" width="380" height="88" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
+  <text class="label" x="350" y="493" text-anchor="middle">Cognitive Grounding</text>
+
+  <rect x="660" y="440" width="380" height="88" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
+  <text class="label" x="850" y="493" text-anchor="middle">Interaction Policy</text>
+
+  <line x1="350" y1="528" x2="350" y2="590" class="stroke-black med round"/>
+  <line x1="850" y1="528" x2="850" y2="590" class="stroke-black med round"/>
+  <line x1="350" y1="590" x2="850" y2="590" class="stroke-black med round"/>
+  <line x1="600" y1="590" x2="600" y2="645" class="stroke-black med round" marker-end="url(#arrow-black)"/>
+
+  <rect x="380" y="650" width="440" height="88" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
+  <text class="label" x="600" y="703" text-anchor="middle">Continuous Response Engine</text>
+
+  <line x1="600" y1="738" x2="600" y2="800" class="stroke-black med round" marker-end="url(#arrow-black)"/>
+
+  <rect x="410" y="805" width="380" height="80" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
+  <text class="label" x="600" y="853" text-anchor="middle">Adaptive AI Response</text>
+</svg>
+                <p class="fig-caption">Incremental speech → continuous conversation state → cognitive grounding &amp; interaction policy → continuous response engine → adaptive response.</p>
+              </div>
+
+              <div class="patent-timeline">
+                <div class="pt-row"><span class="pt-date">Oct 7, 2024</span><span class="pt-what">Priority filing</span></div>
+                <div class="pt-row"><span class="pt-date">Nov 13, 2025</span><span class="pt-what">International Search Report &amp; Written Opinion issued</span></div>
+                <div class="pt-row current"><span class="pt-date">Now</span><span class="pt-what">Patent Pending</span></div>
+              </div>
+
+              <div class="patent-contribution">
+                <div class="patent-contribution-label">EPO / ISA Written Opinion — distinguishing technical contribution</div>
+                <div class="patent-claims">
+                  <div class="patent-claim"><strong>Dynamic topic / domain switching</strong><span>changing subject mid-conversation without losing cognitive context</span></div>
+                  <div class="patent-claim"><strong>Cognition-aligned interrupts</strong><span>customizable interrupt-response behavior aligned with the user's cognitive capabilities</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel E · Competitors -->
+          <div class="research-panel compete-panel" id="panel-compete">
+            <button class="panel-toggle" aria-expanded="false" type="button">
+              <div class="panel-tag">E</div>
+              <div class="panel-summary">
+                <strong>Competitors</strong>
+                <em>They make voice AI conversational · CAST makes it human-aware</em>
+              </div>
+              <div class="panel-chevron"></div>
+            </button>
+            <div class="panel-body" hidden>
+              <div class="panel-lede">
+                <p>The field has converged on full-duplex, speech-to-speech voice AI. What no one else models is the <strong>human on the other end</strong> — their cognitive state, and how the response should adapt to it.</p>
+              </div>
+              <div class="compete-section">
+                <div class="bench-title">Where CAST stands apart</div>
+                <p class="bench-desc">Others make voice AI <em>conversational</em>. Only CAST models the human on the other end.</p>
+                <div class="compete-scroll">
+                  <table class="compete-table">
+                    <thead>
+                      <tr>
+                        <th>Model capability</th>
+                        <th class="col-cast">CAST</th>
+                        <th>OpenAI Realtime</th>
+                        <th>Gemini Live</th>
+                        <th>Thinking Machines</th>
+                        <th>Moshi</th>
+                        <th>Hume EVI</th>
+                        <th>NVIDIA PersonaPlex</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>Native full-duplex speech</td><td class="col-cast yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+                      <tr><td>Speech-to-speech generation</td><td class="col-cast yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+                      <tr><td>Affective / prosody-aware response</td><td class="col-cast yes">✓</td><td class="part">◐</td><td class="yes">✓</td><td class="part">◐</td><td class="part">◐</td><td class="yes">✓</td><td class="part">◐</td></tr>
+                      <tr class="compete-key"><td>Continuous human-state model</td><td class="col-cast yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+                      <tr class="compete-key"><td>Cognition-conditioned response generation</td><td class="col-cast yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+                      <tr class="compete-key"><td>Live interpretable cognitive state</td><td class="col-cast yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="compete-tagline">They make voice AI conversational. <strong>CAST makes it human-aware.</strong></p>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /research-panels -->
+      </section>
+    </main>
+
+    <script src="app.js?v=95"></script>
+  </body>
+</html>
