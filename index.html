@@ -8,7 +8,7 @@
       content="CAST"
     />
     <title>CAST - Internal State Demo</title>
-    <link rel="stylesheet" href="styles.css?v=96" />
+    <link rel="stylesheet" href="styles.css?v=97" />
     <style id="cast-gate-style">
       #cast-gate{position:fixed;inset:0;z-index:2147483647;background:#f3f4ef;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
       #cast-gate.cast-gate--open{display:none;}
@@ -156,7 +156,7 @@
         </div>
       </section>
 
-      <!-- ── Ten grounded scenarios · five domains (collapsible) ────────── -->
+      <!-- ── Seven grounded scenarios · four domains (collapsible) ────────── -->
       <section class="scenarios" aria-label="Grounded scenarios">
         <div class="scenarios-intro">
           <span>Ten grounded scenarios · five domains</span>
@@ -734,88 +734,6 @@
               </article>
               </div>
             </div>
-            <div class="scenario-panel" data-cat="psych">
-              <button class="scenario-toggle" aria-expanded="false" type="button">
-                <span class="scenario-dot"></span>
-                <span class="scenario-num">05</span>
-                <span class="scenario-name"><strong>Story summarization</strong><em>gist extraction · structuring</em></span>
-                <span class="scenario-chev"></span>
-              </button>
-              <div class="scenario-body" hidden>
-<article class="story-scene" data-scene="news_summary_natural" data-audio="audio/grounding/c05.mp3">
-                <div class="scene-meta">
-                  <div><span>05</span><strong>News-story summary</strong></div>
-                  <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
-                </div>
-                <div class="conversation-grid">
-                  <aside class="rail user-rail" aria-label="Transcript"><div class="rail-label">Participant</div></aside>
-            <section class="mind-panel" aria-label="CAST internal state">
-              <div class="mind-header">
-                <div><span>Internal state head</span><strong>Reading internal state.</strong></div>
-                <em>live · cognitive · emotional · physical</em>
-              </div>
-              <div class="visual-stack">
-                <div class="cog-emo-row">
-                  <div class="cog-board">
-                    <div class="board-title"><strong>Cognitive</strong></div>
-                    <div class="cog-bars">
-                      <div class="cog-bar" data-bar="choicert" data-level="mid"><div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
-                      <div class="cog-bar" data-bar="gradcpt" data-level="mid"><div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
-                      <div class="cog-bar" data-bar="dsm" data-level="mid"><div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
-                      <div class="cog-bar" data-bar="mot" data-level="mid"><div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
-                    </div>
-                  </div>
-                  <div class="emotion-board">
-                    <div class="board-title"><strong>Emotion</strong></div>
-                    <div class="emotion-row"><span class="emo-chip" data-emotion="">—</span><span class="emo-style-chip">—</span></div>
-                    <div class="emotion-details">
-                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
-                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
-                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="phys-board">
-                  <div class="board-title"><strong>Environment</strong></div>
-                  <div class="phys-board-inner">
-                    <div class="phys-board-left">
-                      <div class="env-chips"></div>
-                      <div class="env-features">
-                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
-                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
-                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
-                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
-                      </div>
-                    </div>
-                    <div class="mic-map">
-                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/><circle cx="40" cy="40" r="23" class="mic-ring r2"/><circle cx="40" cy="40" r="12" class="mic-ring r1"/><circle cx="40" cy="40" r="4" class="mic-center"/><circle class="caller-dot" cx="40" cy="51" r="5"/>
-                      </svg>
-                      <span>mic proximity</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="phys-board">
-                  <div class="board-title"><strong>Interaction policy</strong></div>
-                  <div class="policy-board-live">
-                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
-                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
-                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
-                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
-                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
-                  </div>
-                </div>
-              </div>
-              <div class="state-feed" data-at="400">
-                <div class="state-stream-label">internal state · generating</div>
-                <div class="state-stream" aria-live="polite"></div>
-              </div>
-            </section>
-                  <aside class="rail cast-rail" aria-label="CAST response"><div class="rail-label">CAST</div></aside>
-                </div>
-              </article>
-              </div>
-            </div>
             </div>
           </div>
           <div class="scenario-category" data-cat="adl">
@@ -824,14 +742,14 @@
             <div class="scenario-panel" data-cat="adl">
               <button class="scenario-toggle" aria-expanded="false" type="button">
                 <span class="scenario-dot"></span>
-                <span class="scenario-num">06</span>
+                <span class="scenario-num">05</span>
                 <span class="scenario-name"><strong>Name–face recall</strong><em>associative memory · cueing</em></span>
                 <span class="scenario-chev"></span>
               </button>
               <div class="scenario-body" hidden>
 <article class="story-scene" data-scene="name_face_natural" data-audio="audio/grounding/c06.mp3">
                 <div class="scene-meta">
-                  <div><span>06</span><strong>Name–face recall</strong></div>
+                  <div><span>05</span><strong>Name–face recall</strong></div>
                   <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
                 </div>
                 <div class="conversation-grid">
@@ -906,14 +824,14 @@
             <div class="scenario-panel" data-cat="adl">
               <button class="scenario-toggle" aria-expanded="false" type="button">
                 <span class="scenario-dot"></span>
-                <span class="scenario-num">07</span>
+                <span class="scenario-num">06</span>
                 <span class="scenario-name"><strong>Simple meal planning</strong><em>executive sequencing · safety</em></span>
                 <span class="scenario-chev"></span>
               </button>
               <div class="scenario-body" hidden>
 <article class="story-scene" data-scene="meal_planning_natural" data-audio="audio/grounding/c07.mp3">
                 <div class="scene-meta">
-                  <div><span>07</span><strong>Simple meal planning</strong></div>
+                  <div><span>06</span><strong>Simple meal planning</strong></div>
                   <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
                 </div>
                 <div class="conversation-grid">
@@ -993,96 +911,14 @@
             <div class="scenario-panel" data-cat="learn">
               <button class="scenario-toggle" aria-expanded="false" type="button">
                 <span class="scenario-dot"></span>
-                <span class="scenario-num">08</span>
-                <span class="scenario-name"><strong>Gradient-descent tutor</strong><em>learning · self-repair</em></span>
-                <span class="scenario-chev"></span>
-              </button>
-              <div class="scenario-body" hidden>
-<article class="story-scene" data-scene="gradient_tutor" data-audio="audio/grounding/c08.mp3">
-                <div class="scene-meta">
-                  <div><span>08</span><strong>Gradient-descent tutor</strong></div>
-                  <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
-                </div>
-                <div class="conversation-grid">
-                  <aside class="rail user-rail" aria-label="Transcript"><div class="rail-label">Student</div></aside>
-            <section class="mind-panel" aria-label="CAST internal state">
-              <div class="mind-header">
-                <div><span>Internal state head</span><strong>Reading internal state.</strong></div>
-                <em>live · cognitive · emotional · physical</em>
-              </div>
-              <div class="visual-stack">
-                <div class="cog-emo-row">
-                  <div class="cog-board">
-                    <div class="board-title"><strong>Cognitive</strong></div>
-                    <div class="cog-bars">
-                      <div class="cog-bar" data-bar="choicert" data-level="mid"><div class="cog-bar-meta"><span>Response speed</span><em>Turn-taking speed</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
-                      <div class="cog-bar" data-bar="gradcpt" data-level="mid"><div class="cog-bar-meta"><span>Sustained focus</span><em>Staying engaged</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
-                      <div class="cog-bar" data-bar="dsm" data-level="mid"><div class="cog-bar-meta"><span>Processing load</span><em>Handling multiple signals</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
-                      <div class="cog-bar" data-bar="mot" data-level="mid"><div class="cog-bar-meta"><span>Attention tracking</span><em>Following speaker &amp; topic</em></div><div class="cog-bar-track"><div class="cog-bar-fill" style="--pct:50"></div></div><strong class="cog-val">—</strong></div>
-                    </div>
-                  </div>
-                  <div class="emotion-board">
-                    <div class="board-title"><strong>Emotion</strong></div>
-                    <div class="emotion-row"><span class="emo-chip" data-emotion="">—</span><span class="emo-style-chip">—</span></div>
-                    <div class="emotion-details">
-                      <div class="emo-feat"><span>Emotion</span><strong class="emo-main">—</strong></div>
-                      <div class="emo-feat"><span>Manner</span><strong class="emo-style">—</strong></div>
-                      <div class="emo-feat"><span>Audience</span><strong class="emo-audience">—</strong></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="phys-board">
-                  <div class="board-title"><strong>Environment</strong></div>
-                  <div class="phys-board-inner">
-                    <div class="phys-board-left">
-                      <div class="env-chips"></div>
-                      <div class="env-features">
-                        <div class="env-feat" data-feat="competing"><span>Competing speech</span><strong>—</strong></div>
-                        <div class="env-feat" data-feat="ambient"><span>Ambient</span><strong>—</strong></div>
-                        <div class="env-feat" data-feat="movement"><span>Movement</span><strong>—</strong></div>
-                        <div class="env-feat" data-feat="landmark" hidden><span>Landmark</span><strong>—</strong></div>
-                      </div>
-                    </div>
-                    <div class="mic-map">
-                      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="40" cy="40" r="34" class="mic-ring r3"/><circle cx="40" cy="40" r="23" class="mic-ring r2"/><circle cx="40" cy="40" r="12" class="mic-ring r1"/><circle cx="40" cy="40" r="4" class="mic-center"/><circle class="caller-dot" cx="40" cy="51" r="5"/>
-                      </svg>
-                      <span>mic proximity</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="phys-board">
-                  <div class="board-title"><strong>Interaction policy</strong></div>
-                  <div class="policy-board-live">
-                    <div class="policy-step-live" data-step="0">Monitor<em>build state</em></div>
-                    <div class="policy-step-live" data-step="1">Soft interrupt<em>gentle probe</em></div>
-                    <div class="policy-step-live" data-step="2">Hard interrupt<em>step in</em></div>
-                    <div class="policy-step-live" data-step="3">Accept fragments<em>partial OK</em></div>
-                    <div class="policy-step-live" data-step="4">Wrap up<em>secure</em></div>
-                  </div>
-                </div>
-              </div>
-              <div class="state-feed" data-at="400">
-                <div class="state-stream-label">internal state · generating</div>
-                <div class="state-stream" aria-live="polite"></div>
-              </div>
-            </section>
-                  <aside class="rail cast-rail" aria-label="CAST response"><div class="rail-label">CAST</div></aside>
-                </div>
-              </article>
-              </div>
-            </div>
-            <div class="scenario-panel" data-cat="learn">
-              <button class="scenario-toggle" aria-expanded="false" type="button">
-                <span class="scenario-dot"></span>
-                <span class="scenario-num">09</span>
+                <span class="scenario-num">07</span>
                 <span class="scenario-name"><strong>Photosynthesis tutor</strong><em>overload · chunking support</em></span>
                 <span class="scenario-chev"></span>
               </button>
               <div class="scenario-body" hidden>
 <article class="story-scene" data-scene="photosynthesis_tutor" data-audio="audio/grounding/c09.mp3">
                 <div class="scene-meta">
-                  <div><span>09</span><strong>Photosynthesis tutor</strong></div>
+                  <div><span>07</span><strong>Photosynthesis tutor</strong></div>
                   <div class="scene-meta-right"><button class="play-session" type="button"><i></i>Run session</button></div>
                 </div>
                 <div class="conversation-grid">
@@ -1484,6 +1320,6 @@
       </section>
     </main>
 
-    <script src="app.js?v=96"></script>
+    <script src="app.js?v=97"></script>
   </body>
 </html>

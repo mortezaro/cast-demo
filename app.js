@@ -274,24 +274,6 @@ const streamScripts = {
     ],
   },
 
-  // ── Scene 5 · Short news-story summary (gist extraction) ──
-  news_summary_natural: {
-    env: { chips: [{ t: "Indoor", cls: "indoor" }],
-           feats: { competing: "None", ambient: "Quiet", movement: "Stationary" } },
-    policy: [ { at: 0.3, step: 0 }, { at: 20, step: 1 }, { at: 25, step: 0 }, { at: 42, step: 1 }, { at: 46, step: 0 }, { at: 63, step: 4 } ],
-    userStates: [
-      { bars: { choicert: { pct: 30, lvl: "low" }, gradcpt: { pct: 48, lvl: "mid" }, dsm: { pct: 32, lvl: "low" }, mot: { pct: 28, lvl: "low" } },
-        emotion: { emotion: "Confused", manner: "Default", audience: "—" },
-        trace: [ { t: "heard ▸ fragments: morning, waiting, school" }, { t: "gist extraction ▸ main point not forming", cls: "risk" }, { t: "processing ▸ detail over gist", cls: "risk" } ] },
-      { bars: { choicert: { pct: 38, lvl: "low" }, gradcpt: { pct: 52, lvl: "mid" }, dsm: { pct: 44, lvl: "low" }, mot: { pct: 42, lvl: "low" } },
-        emotion: { emotion: "Calm", manner: "Default", audience: "—" },
-        trace: [ { t: "detail recalled ▸ stop moved closer to clinic" }, { t: "structuring fragments → main point", cls: "accent" } ] },
-      { bars: { choicert: { pct: 46, lvl: "low" }, gradcpt: { pct: 56, lvl: "mid" }, dsm: { pct: 52, lvl: "mid" }, mot: { pct: 50, lvl: "mid" } },
-        emotion: { emotion: "Calm", manner: "Default", audience: "—" },
-        trace: [ { t: "reason integrated ▸ safer for older people", cls: "accent" }, { t: "summary formed with heavy scaffolding" } ] },
-    ],
-  },
-
   // ── Scene 6 · Name–face recall (associative · recognition > recall) ──
   name_face_natural: {
     env: { chips: [{ t: "Indoor", cls: "indoor" }],
@@ -330,25 +312,6 @@ const streamScripts = {
       { bars: { choicert: { pct: 42, label: "steadier", lvl: "low" }, gradcpt: { pct: 52, label: "engaged", lvl: "mid" }, dsm: { pct: 40, label: "sequence held", lvl: "low" }, mot: { pct: 48, label: "consolidated", lvl: "low" } },
         emotion: { emotion: "Calm", manner: "Default", audience: "—" },
         trace: [ { t: "sequence consolidated ✓ · safety: stove off", cls: "accent" } ] },
-    ],
-  },
-
-  // ── Scene 8 · Gradient-descent tutor (capable learner · self-repair) ──
-  gradient_tutor: {
-    env: { chips: [{ t: "Indoor", cls: "indoor" }],
-           feats: { competing: "None", ambient: "Quiet", movement: "Stationary" } },
-    policy: [ { at: 0.3, step: 0 }, { at: 13.55, step: 1 }, { at: 18, step: 0 }, { at: 42.2, step: 1 }, { at: 47, step: 0 } ],
-    userStates: [
-      { bars: { choicert: { pct: 65, lvl: "high" }, gradcpt: { pct: 71, lvl: "high" }, dsm: { pct: 61, lvl: "high" }, mot: { pct: 65, lvl: "high" } },
-        emotion: { emotion: "Calm", manner: "Default", audience: "—" },
-        trace: [ { t: "heard ▸ gradient = derivative, opposite direction" }, { t: "GradCPT ▸ focused · active reasoning" } ] },
-      { bars: { choicert: { pct: 67, lvl: "high" }, gradcpt: { pct: 72, lvl: "high" }, dsm: { pct: 63, lvl: "high" }, mot: { pct: 66, lvl: "high" } },
-        trace: [ { t: "connects gradient direction → slope of the loss ✓", cls: "accent" } ] },
-      { bars: { choicert: { pct: 68, lvl: "high" }, gradcpt: { pct: 73, lvl: "high" }, dsm: { pct: 64, lvl: "high" }, mot: { pct: 67, lvl: "high" } },
-        trace: [ { t: "narrows to parameters / weights ✓", cls: "accent" } ] },
-      { bars: { choicert: { pct: 70, lvl: "high" }, gradcpt: { pct: 75, lvl: "high" }, dsm: { pct: 67, lvl: "high" }, mot: { pct: 69, lvl: "high" } },
-        emotion: { emotion: "Happy", manner: "Default", audience: "—" },
-        trace: [ { t: 'self-repair ▸ "up, so we go down" ✓', cls: "accent" }, { t: "concept consolidating · confidence up" } ] },
     ],
   },
 
