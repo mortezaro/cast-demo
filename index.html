@@ -8,7 +8,7 @@
       content="CAST"
     />
     <title>CAST - Internal State Demo</title>
-    <link rel="stylesheet" href="styles.css?v=97" />
+    <link rel="stylesheet" href="styles.css?v=98" />
     <style id="cast-gate-style">
       #cast-gate{position:fixed;inset:0;z-index:2147483647;background:#f3f4ef;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
       #cast-gate.cast-gate--open{display:none;}
@@ -1007,6 +1007,13 @@
           <div class="pillar-item"><strong>Patent</strong><span>Cognition-aware conversation · pending, ISR issued</span></div>
         </div>
 
+
+        <div class="build-legend">
+          <span class="bl-title">What we have — and what we don't:</span>
+          <span class="bl-item"><span class="bl-glyph built"></span>Built — live today</span>
+          <span class="bl-item"><span class="bl-glyph prog"></span>In progress — active now</span>
+          <span class="bl-item"><span class="bl-glyph road"></span>Roadmap — this round funds</span>
+        </div>
         <div class="research-panels">
 
           <!-- Panel A · Technology: CAST -->
@@ -1021,13 +1028,28 @@
             </button>
             <div class="panel-body" hidden>
               <div class="panel-lede">
-                <p><strong>CAST is our speech intelligence layer</strong> — a speech language model optimized for acoustic consistency, semantic grounding, and real-time speech generation. Developed in-house at 0.7B and 1.1B parameters.</p>
+                <p><strong>CAST is our speech intelligence layer</strong> — a speech language model optimized for acoustic consistency, semantic grounding, and real-time generation, with a model on top that reads the person's state and decides how to respond. <span class="click-hint">Click any item for detail.</span></p>
               </div>
 
-              <div class="tech-features">
-                <div class="tech-feature"><span>01</span><strong>Speech-native language models</strong><em>trained on raw speech, not transcripts</em></div>
-                <div class="tech-feature"><span>02</span><strong>Speech-to-speech generation</strong><em>listen and speak in one model, no separate ASR/TTS</em></div>
-                <div class="tech-feature"><span>03</span><strong>Interleaved speech + text models</strong><em>codec speech tokens and BPE text tokens in one stream</em></div>
+              <div class="ladder">
+                <div class="lcol built">
+                  <div class="lh"><span class="lchip"></span>Built<span class="sm">live today</span></div>
+                  <details class="li"><summary>Speech-native LMs — 0.7B &amp; 1.1B</summary><div class="dt">Speech-to-speech and interleaved speech+text, developed in-house on an open decoder backbone with the codec frozen in training. <span class="num">25k+</span> downloads, public demo live.</div></details>
+                  <details class="li"><summary>Benchmark-leading acoustic consistency</summary><div class="dt"><span class="num">0.7B</span> leads the public SALMON benchmark against models orders of magnitude larger — 90.8 speaker, 90.0 gender. CAST-IL leads the COAST grounding suite (14 tasks) vs GPT-5 Audio.</div></details>
+                  <details class="li"><summary>State model — reads the person, recommends the move</summary><div class="dt">Estimates cognition, emotion &amp; environment from speech and recommends the interaction action (soft / hard interrupt, wrap-up) per timestamp. The <b>"decide" half</b>.</div></details>
+                </div>
+                <div class="lcol prog">
+                  <div class="lh"><span class="lchip"></span>In progress<span class="sm">active now</span></div>
+                  <details class="li"><summary>Retrain the state model on proprietary sessions</summary><div class="dt">Move it off prior public + clinical data onto the paired cognition study.</div></details>
+                  <details class="li"><summary>Proprietary task-specific tokenizer</summary><div class="dt">Built for CAST's interaction tasks, distinct from the frozen codec in the published models — not yet integrated.</div></details>
+                  <details class="li"><summary>Synthetic preference / RLHF data</summary><div class="dt">Being generated now for alignment and interaction tuning.</div></details>
+                </div>
+                <div class="lcol road">
+                  <div class="lh"><span class="lchip"></span>Roadmap<span class="sm">this round funds</span></div>
+                  <details class="li"><summary>Full-duplex behavior — the "do" half</summary><div class="dt">Wire the state estimate into live generation and interrupts, so the model doesn't just decide the move, it performs it.</div></details>
+                  <details class="li"><summary>Scale to 7B for production</summary><div class="dt">0.7–1.1B proved the recipe; 7B is the production full-duplex target.</div></details>
+                  <details class="li"><summary>Latency ~200ms → human-natural</summary><div class="dt">Extraction cadence is adjustable; the work is the state-head + generation loop. Engineering + scale, not open research.</div></details>
+                </div>
               </div>
 
               <div class="interleave-fig">
@@ -1036,12 +1058,13 @@
               </div>
 
               <div class="tech-specs">
-                <div class="tech-spec"><strong>0.7B &amp; 1.1B</strong><span>parameter models<br>developed in-house</span></div>
-                <div class="tech-spec"><strong>25,000+</strong><span>Hugging Face downloads<br>and a public demo live</span></div>
-                <div class="tech-spec"><strong>Speech-native</strong><span>speech-to-speech<br>no separate ASR / TTS</span></div>
-                <div class="tech-spec"><strong>Interleaved</strong><span>speech + text tokens<br>in a single stream</span></div>
+                <div class="tech-spec"><strong>0.7B &amp; 1.1B</strong><span>parameter models developed in-house</span></div>
+                <div class="tech-spec"><strong>25,000+</strong><span>Hugging Face downloads and a public demo live</span></div>
+                <div class="tech-spec"><strong>Speech-native</strong><span>speech-to-speech, no separate ASR / TTS</span></div>
+                <div class="tech-spec"><strong>0.7B › larger</strong><span>leads a public consistency benchmark vs far bigger models</span></div>
               </div>
 
+              <div class="moat"><span class="moat-tag">Edge</span><p>Everyone races the same axis — full-duplex fluency. We add an orthogonal one: a <strong>continuous, interpretable human-state model that conditions generation</strong>. The two hard research questions — does speech carry recoverable cognitive state, can a small architecture beat scale — are already answered. What's left is build, not discovery.</p></div>
             </div>
           </div>
 
@@ -1142,43 +1165,79 @@
             </button>
             <div class="panel-body" hidden>
               <div class="panel-lede">
-                <p>Two data assets. A <strong>proprietary study</strong> pairing each speaker's voice with validated cognitive measurement — and <strong>large-scale speech &amp; text corpora</strong> for pre-training.</p>
+                <p>Two assets. A <strong>proprietary longitudinal study</strong> pairing each speaker's voice with validated cognitive measurement — the part you can't scrape — and <strong>large-scale corpora</strong> that supply the scale for pre-training.</p>
               </div>
 
-              <div class="data-block">
-                <div class="data-block-title">Proprietary cognition study <span class="bench-tag">ours</span></div>
-                <p class="bench-desc">Each participant records spontaneous-speech and picture-description tasks, paired in the same session with a battery of validated cognitive tests — so speech is directly linked to measured cognition.</p>
-                <div class="data-grid">
-                  <div class="data-stat"><strong>2,500</strong><span>sessions collected<br>× 6 minutes each</span></div>
-                  <div class="data-stat"><strong>250 hrs</strong><span>collected so far<br>2,500 × 6 min</span></div>
-                  <div class="data-stat"><strong>~4,000</strong><span>sessions at completion<br>target enrollment</span></div>
-                  <div class="data-stat highlight"><strong>400 hrs</strong><span>final study total<br>4,000 × 6 min</span></div>
-                </div>
-                <div class="cog-collect">
-                  <div class="cog-collect-label">Cognitive measures collected per session</div>
-                  <div class="cog-collect-grid">
-                    <div class="cog-collect-item"><strong>Choice Reaction Time</strong><span>response speed &amp; decision latency</span></div>
-                    <div class="cog-collect-item"><strong>Gradual-onset CPT</strong><span>sustained attention &amp; vigilance</span></div>
-                    <div class="cog-collect-item"><strong>Digit Symbol Matching</strong><span>processing speed &amp; working memory</span></div>
-                    <div class="cog-collect-item"><strong>Multiple Object Tracking</strong><span>divided visual attention</span></div>
-                  </div>
+              <div class="tech-specs">
+                <div class="tech-spec"><strong>Speech ↔ cognition</strong><span>each voice time-locked to a 4-test validated battery — the defensible part</span></div>
+                <div class="tech-spec"><strong>1.4M hrs</strong><span>pre-training speech in hand → ~7M for the 7B model</span></div>
+                <div class="tech-spec"><strong>~10,000</strong><span>speech-linked cognitive measurements (2,500 × 4-test), → ~16,000 at completion</span></div>
+                <div class="tech-spec"><strong>Longitudinal</strong><span>same people across sessions over 10–12 days — within-person change, not snapshots</span></div>
+              </div>
+
+              <div class="assetlbl">Proprietary cognition study
+                <span class="pill ours">OURS</span>
+                <span class="statustag built"><span class="statustag-dot"></span>Built &amp; growing</span>
+              </div>
+              <p class="bench-desc">Each participant records spontaneous-speech and picture-description tasks, paired in the same session with a battery of validated cognitive tests — collected longitudinally, so speech is directly linked to measured cognition over time.</p>
+
+              <div class="data-grid">
+                <div class="data-stat"><strong>2,500</strong><span>sessions collected · ×6 min</span></div>
+                <div class="data-stat"><strong>250 hrs</strong><span>collected so far</span></div>
+                <div class="data-stat"><strong>~4,000</strong><span>sessions at completion</span></div>
+                <div class="data-stat highlight"><strong>400 hrs</strong><span>final study total</span></div>
+              </div>
+
+              <div class="cog-collect">
+                <div class="cog-collect-label">Cognitive measures collected per session</div>
+                <div class="cog-collect-grid">
+                  <div class="cog-collect-item"><strong>Choice Reaction Time</strong><span>response speed &amp; decision latency</span></div>
+                  <div class="cog-collect-item"><strong>Gradual-onset CPT</strong><span>sustained attention &amp; vigilance</span></div>
+                  <div class="cog-collect-item"><strong>Digit Symbol Matching</strong><span>processing speed &amp; working memory</span></div>
+                  <div class="cog-collect-item"><strong>Multiple Object Tracking</strong><span>divided visual attention</span></div>
                 </div>
               </div>
 
-              <div class="data-block">
-                <div class="data-block-title">Pre-training corpora <span class="bench-tag">in hand</span></div>
-                <p class="bench-desc">Large-scale speech and text already assembled, plus synthetic preference data being generated now.</p>
-                <div class="data-grid">
-                  <div class="data-stat"><strong>1.4M hrs</strong><span>speech</span></div>
-                  <div class="data-stat"><strong>60,000 hrs</strong><span>conversational speech</span></div>
-                  <div class="data-stat"><strong>250,000 hrs</strong><span>transcribed speech</span></div>
-                  <div class="data-stat"><strong>3T tokens</strong><span>text dataset</span></div>
+              <div class="assetlbl" style="margin-top:22px">Pre-training corpora <span class="pill hand">IN HAND</span></div>
+              <div class="data-grid">
+                <div class="data-stat"><strong>1.4M hrs</strong><span>speech · confirmed usable</span></div>
+                <div class="data-stat"><strong>60,000 hrs</strong><span>conversational speech</span></div>
+                <div class="data-stat"><strong>250,000 hrs</strong><span>transcribed speech</span></div>
+                <div class="data-stat"><strong>3T tokens</strong><span>text dataset</span></div>
+              </div>
+
+              <div class="eyebrow">Path to the 7B pre-training set — what we have, and what's left</div>
+              <div class="ladder">
+                <div class="lcol built">
+                  <div class="lh"><span class="lchip"></span>Built<span class="sm">in hand</span></div>
+                  <details class="li"><summary>~1.4M hrs speech confirmed usable</summary><div class="dt">Downloaded, provenance checked, rights confirmed — ready to train on today.</div></details>
+                  <details class="li"><summary>2,500 sessions of paired cognition data</summary><div class="dt">Longitudinal speech ↔ validated cognitive battery — the label source for the state model.</div></details>
+                  <details class="li"><summary>Corpora assembled — 60k / 250k hrs, 3T tokens</summary><div class="dt">Conversational, transcribed, and text data already staged.</div></details>
                 </div>
-                <div class="data-synth">
-                  <span class="data-synth-dot"></span>
-                  <p><strong>Generating now:</strong> synthetic RLHF / preference data for alignment and interaction tuning.</p>
+                <div class="lcol prog">
+                  <div class="lh"><span class="lchip"></span>In progress<span class="sm">active now</span></div>
+                  <details class="li"><summary>Clear licensing on ~10M hrs accessed</summary><div class="dt">We have access to <span class="num">~10M hrs</span>; clearing commercial rights + data management is the sourcing task this round funds.</div></details>
+                  <details class="li"><summary>Scale the study toward 4,000 sessions</summary><div class="dt">Enrollment continuing on the same remote, longitudinal pipeline.</div></details>
+                  <details class="li"><summary>Synthetic preference / RLHF data</summary><div class="dt">Being generated now for alignment and interaction tuning.</div></details>
+                </div>
+                <div class="lcol road">
+                  <div class="lh"><span class="lchip"></span>Roadmap<span class="sm">this round funds</span></div>
+                  <details class="li"><summary>~7M hrs cleared for 7B pre-training</summary><div class="dt">The rights-cleared corpus sized for the standalone 7B model.</div></details>
+                  <details class="li"><summary>Synthetic data &amp; labeling built from the study</summary><div class="dt">Use the paired cognition study to generate synthetic training data and labels for the state model.</div></details>
                 </div>
               </div>
+
+              <div class="replicate">
+                <h4>Why a well-funded lab can't just buy this</h4>
+                <ul>
+                  <li><strong>Not on the internet.</strong> Paired speech + validated cognition can't be scraped — it has to be run as a study.</li>
+                  <li><strong>Longitudinal.</strong> The same people tracked across sessions over 10–12 days — and extendable — capturing within-person change no snapshot dataset holds.</li>
+                  <li><strong>Built-in clock.</strong> Protocol design plus longitudinal collection can't be compressed with budget. A lab starting today needs 6+ months minimum to stand up an equivalent.</li>
+                </ul>
+                <div class="kick">Money doesn't buy calendar time. Our lead grows while they try to catch it.</div>
+              </div>
+
+              <div class="moat"><span class="moat-tag">Edge</span><p>The corpora are large but <strong>commodity</strong>. The asset that can't be scraped is a <strong>longitudinal, validated cognitive battery time-locked to each voice</strong>. Our published npj Digital Medicine work is the proof speech carries recoverable cognitive state.</p></div>
             </div>
           </div>
 
@@ -1194,132 +1253,65 @@
             </button>
             <div class="panel-body" hidden>
               <div class="panel-lede">
-                <p>Our pending patent covers a <strong>dynamic, cognition-aware conversational architecture</strong> — reading a speaker's state mid-conversation and adapting how the machine engages.</p>
+                <p>Our pending patent covers a <strong>dynamic, cognition-aware conversational architecture</strong>. The colours show how much of it we've already built — the front of the pipeline is real, the final execution is the roadmap.</p>
               </div>
 
-              <div class="patent-figure" aria-label="Cognition-aware conversational architecture">
-                <svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg" class="patent-arch-svg" role="img" aria-label="Conversational architecture">
-  <title id="title">Minimal conversational architecture diagram</title>
-  <desc id="desc">A clean scientific architecture diagram showing Incremental Speech Stream flowing into Continuous Conversation State, branching into Cognitive Grounding and Interaction Policy, merging into Continuous Response Engine, and producing an Adaptive AI Response.</desc>
-  <defs>
-    <style>
-      .bg { fill: #ffffff; }
-      .label { font: 600 24px "Helvetica Neue", Arial, sans-serif; fill: #111827; }
-      .stroke-black { stroke: #111827; }
-      .fill-white { fill: #ffffff; }
-      .thin { stroke-width: 2; }
-      .med { stroke-width: 2.4; }
-      .round { stroke-linecap: round; stroke-linejoin: round; }
-    </style>
-    <marker id="arrow-black" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L12,6 L0,12 z" fill="#111827"/>
-    </marker>
-  </defs>
-
-  <rect class="bg" x="0" y="0" width="1200" height="900"/>
-
-  <rect x="400" y="80" width="400" height="80" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
-  <text class="label" x="600" y="128" text-anchor="middle">Incremental Speech Stream</text>
-
-  <line x1="600" y1="160" x2="600" y2="235" class="stroke-black med round" marker-end="url(#arrow-black)"/>
-
-  <rect x="360" y="240" width="480" height="88" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
-  <text class="label" x="600" y="293" text-anchor="middle">Continuous Conversation State</text>
-
-  <line x1="600" y1="328" x2="600" y2="390" class="stroke-black med round"/>
-  <line x1="600" y1="390" x2="350" y2="390" class="stroke-black med round"/>
-  <line x1="600" y1="390" x2="850" y2="390" class="stroke-black med round"/>
-  <line x1="350" y1="390" x2="350" y2="430" class="stroke-black med round" marker-end="url(#arrow-black)"/>
-  <line x1="850" y1="390" x2="850" y2="430" class="stroke-black med round" marker-end="url(#arrow-black)"/>
-
-  <rect x="160" y="440" width="380" height="88" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
-  <text class="label" x="350" y="493" text-anchor="middle">Cognitive Grounding</text>
-
-  <rect x="660" y="440" width="380" height="88" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
-  <text class="label" x="850" y="493" text-anchor="middle">Interaction Policy</text>
-
-  <line x1="350" y1="528" x2="350" y2="590" class="stroke-black med round"/>
-  <line x1="850" y1="528" x2="850" y2="590" class="stroke-black med round"/>
-  <line x1="350" y1="590" x2="850" y2="590" class="stroke-black med round"/>
-  <line x1="600" y1="590" x2="600" y2="645" class="stroke-black med round" marker-end="url(#arrow-black)"/>
-
-  <rect x="380" y="650" width="440" height="88" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
-  <text class="label" x="600" y="703" text-anchor="middle">Continuous Response Engine</text>
-
-  <line x1="600" y1="738" x2="600" y2="800" class="stroke-black med round" marker-end="url(#arrow-black)"/>
-
-  <rect x="410" y="805" width="380" height="80" rx="22" class="fill-white" stroke="#111827" stroke-width="2"/>
-  <text class="label" x="600" y="853" text-anchor="middle">Adaptive AI Response</text>
-</svg>
-                <p class="fig-caption">Incremental speech → continuous conversation state → cognitive grounding &amp; interaction policy → continuous response engine → adaptive response.</p>
-              </div>
-
-              <div class="patent-timeline">
-                <div class="pt-row"><span class="pt-date">Oct 7, 2024</span><span class="pt-what">Priority filing</span></div>
-                <div class="pt-row"><span class="pt-date">Nov 13, 2025</span><span class="pt-what">International Search Report &amp; Written Opinion issued</span></div>
-                <div class="pt-row current"><span class="pt-date">Now</span><span class="pt-what">Patent Pending</span></div>
-              </div>
-
-              <div class="patent-contribution">
-                <div class="patent-contribution-label">EPO / ISA Written Opinion — distinguishing technical contribution</div>
-                <div class="patent-claims">
-                  <div class="patent-claim"><strong>Dynamic topic / domain switching</strong><span>changing subject mid-conversation without losing cognitive context</span></div>
-                  <div class="patent-claim"><strong>Cognition-aligned interrupts</strong><span>customizable interrupt-response behavior aligned with the user's cognitive capabilities</span></div>
+              <div class="patent-figure">
+                <div class="flow">
+                  <div class="node b">Incremental Speech Stream</div>
+                  <div class="arrow"></div>
+                  <div class="node b">Continuous Conversation State</div>
+                  <div class="arrow"></div>
+                  <div class="row2">
+                    <div class="node p">Cognitive Grounding</div>
+                    <div class="node p">Interaction Policy</div>
+                  </div>
+                  <div class="arrow"></div>
+                  <div class="node r">Continuous Response Engine</div>
+                  <div class="arrow"></div>
+                  <div class="node r">Adaptive AI Response</div>
+                </div>
+                <div class="flegend">
+                  <span class="flitem"><span class="sw b"></span>Built today</span>
+                  <span class="flitem"><span class="sw p"></span>Prototyped — decides, not yet executes</span>
+                  <span class="flitem"><span class="sw r"></span>Roadmap — the "do" half</span>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <!-- Panel E · Competitors -->
-          <div class="research-panel compete-panel" id="panel-compete">
-            <button class="panel-toggle" aria-expanded="false" type="button">
-              <div class="panel-tag">E</div>
-              <div class="panel-summary">
-                <strong>Competitors</strong>
-                <em>They make voice AI conversational · CAST makes it human-aware</em>
+              <div class="eyebrow">Filing timeline</div>
+              <div class="lcol built patent-timeline-block">
+                <details class="li"><summary>Oct 7, 2024 — Priority filing</summary><div class="dt">Early priority date secured for this field.</div></details>
+                <details class="li"><summary>Nov 13, 2025 — International Search Report &amp; Written Opinion issued</summary><div class="dt">An examiner engaged the claims and identified the distinguishing contributions below — outside validation of novelty.</div></details>
+                <details class="li"><summary>Now — Patent Pending · assignment to company being formalized</summary><div class="dt">Exclusive license from UZH via tech-transfer — an immediate post-incorporation step. Michael (co-inventor &amp; PI) is the bridge.</div></details>
               </div>
-              <div class="panel-chevron"></div>
-            </button>
-            <div class="panel-body" hidden>
-              <div class="panel-lede">
-                <p>The field has converged on full-duplex, speech-to-speech voice AI. What no one else models is the <strong>human on the other end</strong> — their cognitive state, and how the response should adapt to it.</p>
+
+              <div class="eyebrow">EPO / ISA written opinion — distinguishing technical contribution</div>
+              <div class="cog-collect-grid patent-claims-grid">
+                <div class="cog-collect-item"><strong>Dynamic topic / domain switching</strong><span>changing subject mid-conversation without losing cognitive context</span></div>
+                <div class="cog-collect-item"><strong>Cognition-aligned interrupts</strong><span>customizable interrupt-response behavior aligned with the user's cognitive capabilities</span></div>
               </div>
-              <div class="compete-section">
-                <div class="bench-title">Where CAST stands apart</div>
-                <p class="bench-desc">Others make voice AI <em>conversational</em>. Only CAST models the human on the other end.</p>
-                <div class="compete-scroll">
-                  <table class="compete-table">
-                    <thead>
-                      <tr>
-                        <th>Model capability</th>
-                        <th class="col-cast">CAST</th>
-                        <th>OpenAI Realtime</th>
-                        <th>Gemini Live</th>
-                        <th>Thinking Machines</th>
-                        <th>Moshi</th>
-                        <th>Hume EVI</th>
-                        <th>NVIDIA PersonaPlex</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td>Native full-duplex speech</td><td class="col-cast yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-                      <tr><td>Speech-to-speech generation</td><td class="col-cast yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-                      <tr><td>Affective / prosody-aware response</td><td class="col-cast yes">✓</td><td class="part">◐</td><td class="yes">✓</td><td class="part">◐</td><td class="part">◐</td><td class="yes">✓</td><td class="part">◐</td></tr>
-                      <tr class="compete-key"><td>Continuous human-state model</td><td class="col-cast yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-                      <tr class="compete-key"><td>Cognition-conditioned response generation</td><td class="col-cast yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-                      <tr class="compete-key"><td>Live interpretable cognitive state</td><td class="col-cast yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-                <p class="compete-tagline">They make voice AI conversational. <strong>CAST makes it human-aware.</strong></p>
-              </div>
+
+              <div class="moat"><span class="moat-tag">Say it right</span><p>Always <strong>"patent pending"</strong> — never "we have a patent." The marker that lands: an examiner has already acknowledged novelty on the exact mechanisms that differentiate us.</p></div>
             </div>
           </div>
 
         </div><!-- /research-panels -->
+        <div class="roadmap">
+          <h3>Roadmap</h3>
+          <p class="road-sub">Parallel tracks, all starting now. The standalone 7B model is the long pole at ~6 months.</p>
+          <div class="gantt">
+            <div class="gaxis"><div class="ttl">Track</div><div class="ticks"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6 mo</span></div></div>
+            <div class="grow"><div class="glabel">Cognition data<small>scale study · retrain state model</small></div><div class="gtrack"><div class="gbar ga" style="width:33.3%">2 mo</div></div></div>
+            <div class="grow"><div class="glabel">Discourse / behavioral data<small>train the "do" half</small></div><div class="gtrack"><div class="gbar gi" style="width:50%">3 mo</div></div></div>
+            <div class="grow"><div class="glabel">CAST middleware<small>ground existing voice models</small></div><div class="gtrack"><div class="gbar gi" style="width:50%">3 mo</div></div></div>
+            <div class="grow"><div class="glabel">Standalone 7B model<small>full-duplex, cognition-conditioned</small></div><div class="gtrack"><div class="gbar gl" style="width:100%">6 mo</div></div></div>
+          </div>
+          <p class="gnote">Durations are targets, not sequential dependencies — the tracks run in parallel from day one.</p>
+        </div>
+
       </section>
     </main>
 
-    <script src="app.js?v=97"></script>
+    <script src="app.js?v=98"></script>
   </body>
 </html>
