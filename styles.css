@@ -3320,9 +3320,25 @@ details.li[open] summary::before { content: "–"; }
   display: flex; align-items: center; padding: 0 12px;
   font-size: 0.72rem; font-weight: 800; color: #fff; white-space: nowrap;
 }
-.gbar.ga { background: linear-gradient(90deg, #C2963A, #d9a94a); }
-.gbar.gi { background: linear-gradient(90deg, #3d3da8, #4e4ec2); }
-.gbar.gl { background: linear-gradient(90deg, #2C2C8A, #41419f); }
+/* Pitch-deck-matched track colors — Dataset · AI model · Product Layer */
+.gbar.gds { background: linear-gradient(90deg, #3d3da8, #5e5ec8); }    /* Proprietary Dataset — indigo */
+.gbar.gml { background: linear-gradient(90deg, #3C8A49, #4fa85e); }    /* AI Model — green */
+.gbar.gpl { background: linear-gradient(90deg, #C2963A, #d9a94a); }    /* Product Layer — amber */
+.gbar.gsoft {
+  background: repeating-linear-gradient(45deg, #3a3a48, #3a3a48 8px, #45455a 8px, #45455a 16px);
+  color: #c5c5d0; opacity: 0.85;
+}
+/* Track-group bands (Dataset / AI Model / Product Layer / Multimodal) */
+.gband {
+  margin: 14px 0 4px; font-size: 0.66rem; letter-spacing: 0.14em;
+  text-transform: uppercase; font-weight: 700; color: #cfcfdb;
+  padding-bottom: 4px; border-bottom: 1px solid #33333f;
+}
+.gband.soft { color: #8888a0; margin-top: 20px; }
+.gband:first-of-type { margin-top: 4px; }
+.grow.soft .glabel { color: #a4a4b8; }
+.grow.soft .glabel small { color: #7a7a90; }
+.grow.soft .gtrack { background: #1a1a24; }
 .gnote {
   margin-top: 16px; font-size: 0.72rem; color: #9a9aa6;
 }

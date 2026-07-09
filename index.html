@@ -8,7 +8,7 @@
       content="CAST"
     />
     <title>CAST - Internal State Demo</title>
-    <link rel="stylesheet" href="styles.css?v=99" />
+    <link rel="stylesheet" href="styles.css?v=100" />
     <style id="cast-gate-style">
       #cast-gate{position:fixed;inset:0;z-index:2147483647;background:#f3f4ef;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
       #cast-gate.cast-gate--open{display:none;}
@@ -1297,21 +1297,31 @@
 
         </div><!-- /research-panels -->
         <div class="roadmap">
-          <h3>Roadmap</h3>
-          <p class="road-sub">Parallel tracks, all starting now. The standalone 7B model is the long pole at ~6 months.</p>
+          <h3>Product Roadmap</h3>
+          <p class="road-sub">Parallel tracks, all starting now. Consistent with the pitch deck — shown here as time-from-zero, not cumulative.</p>
           <div class="gantt">
-            <div class="gaxis"><div class="ttl">Track</div><div class="ticks"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6 mo</span></div></div>
-            <div class="grow"><div class="glabel">Cognition data<small>scale study · retrain state model</small></div><div class="gtrack"><div class="gbar ga" style="width:33.3%">2 mo</div></div></div>
-            <div class="grow"><div class="glabel">Discourse / behavioral data<small>train the "do" half</small></div><div class="gtrack"><div class="gbar gi" style="width:50%">3 mo</div></div></div>
-            <div class="grow"><div class="glabel">CAST middleware<small>ground existing voice models</small></div><div class="gtrack"><div class="gbar gi" style="width:50%">3 mo</div></div></div>
-            <div class="grow"><div class="glabel">Standalone 7B model<small>full-duplex, cognition-conditioned</small></div><div class="gtrack"><div class="gbar gl" style="width:100%">6 mo</div></div></div>
+            <div class="gaxis"><div class="ttl">Track</div><div class="ticks"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span><span>12 mo</span></div></div>
+
+            <div class="gband">Proprietary Dataset</div>
+            <div class="grow"><div class="glabel">Cognition data (voice)<small>scale study · label state model</small></div><div class="gtrack"><div class="gbar gds" style="width:33.3%">4 mo</div></div></div>
+            <div class="grow"><div class="glabel">Interaction data (voice)<small>discourse + behavior for the "do" half</small></div><div class="gtrack"><div class="gbar gds" style="width:41.6%">5 mo</div></div></div>
+
+            <div class="gband">AI Model</div>
+            <div class="grow"><div class="glabel">CAST 7B<small>full-duplex, cognition-conditioned</small></div><div class="gtrack"><div class="gbar gml" style="width:50%">6 mo</div></div></div>
+
+            <div class="gband">Product Layer</div>
+            <div class="grow"><div class="glabel">CAST Domain Adapted<small>tune to first partner domains</small></div><div class="gtrack"><div class="gbar gpl" style="width:66.6%">8 mo</div></div></div>
+
+            <div class="gband soft">Multimodal — on the horizon</div>
+            <div class="grow soft"><div class="glabel">Cognition &amp; interaction data (MM)<small>starts month 8</small></div><div class="gtrack"><div class="gbar gsoft" style="left:66.6%;width:33.3%">months 8–12</div></div></div>
+            <div class="grow soft"><div class="glabel">CAST Multimodal (MM)<small>indicative — dates firm up as we build</small></div><div class="gtrack"><div class="gbar gsoft" style="left:66.6%;width:33.3%">months 8–12+</div></div></div>
           </div>
-          <p class="gnote">Durations are targets, not sequential dependencies — the tracks run in parallel from day one.</p>
+          <p class="gnote">Durations are targets, not sequential dependencies — the tracks run in parallel from day one. The multimodal tracks are shown as a preview; firm dates in the pitch deck cover a longer 0–36 month horizon.</p>
         </div>
 
       </section>
     </main>
 
-    <script src="app.js?v=99"></script>
+    <script src="app.js?v=100"></script>
   </body>
 </html>
